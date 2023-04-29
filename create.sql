@@ -187,3 +187,95 @@ CREATE TABLE challange_award (
     PRIMARY KEY (id_challange, id_award)
 );
 
+
+-- Gym
+INSERT INTO gym (address) VALUES ('Bratyslawska 3');
+INSERT INTO gym (address) VALUES ('Aleja Pokoju 16');
+
+-- Client
+INSERT INTO client (id_pass, name, address, phone, email) VALUES (1, 'Dymeg Bonham', 'Powstancow Slomskich', '666666666', 'db@gmail.com');
+INSERT INTO client (id_pass, name, address, phone, email) VALUES (2, 'Ozgar Skryg', 'Czemstochowska', '420420420', 'os@gmail.com');
+
+-- Pass
+INSERT INTO pass (id_gym) VALUES (1);
+INSERT INTO pass (id_gym) VALUES (2);
+
+-- Pass Client
+INSERT INTO pass_client (id_pass, id_client) VALUES (1, 1);
+INSERT INTO pass_client (id_pass, id_client) VALUES (2, 2);
+
+-- Entry
+INSERT INTO entry (enter_time, exit_time, id_gym, id_client) VALUES ('2019-01-01 10:00:00', '2019-01-01 11:00:00', 1, 1);
+INSERT INTO entry (enter_time, exit_time, id_gym, id_client) VALUES ('2019-01-03 12:00:00', '2019-01-03 13:00:00', 1, 1);
+INSERT INTO entry (enter_time, exit_time, id_gym, id_client) VALUES ('2019-01-04 11:00:00', '2019-01-04 12:00:00', 2, 2);
+INSERT INTO entry (enter_time, exit_time, id_gym, id_client) VALUES ('2019-01-05 20:00:00', '2019-01-05 22:00:00', 2, 2);
+
+-- Equipment Type
+INSERT INTO equipment_type (name) VALUES ('Treadmill');
+INSERT INTO equipment_type (name) VALUES ('Elliptical');
+INSERT INTO equipment_type (name) VALUES ('Weight Machine');
+
+-- Equipment
+INSERT INTO equipment (id_type) VALUES (1);
+INSERT INTO equipment (id_type) VALUES (1);
+INSERT INTO equipment (id_type) VALUES (2);
+INSERT INTO equipment (id_type) VALUES (2);
+INSERT INTO equipment (id_type) VALUES (3);
+INSERT INTO equipment (id_type) VALUES (3);
+
+-- Gym Equipment
+INSERT INTO gym_equipment (gym_id, equipment_id, service_date) VALUES (1, 1, '2022-01-01');
+INSERT INTO gym_equipment (gym_id, equipment_id, service_date) VALUES (1, 3, '2022-01-01');
+INSERT INTO gym_equipment (gym_id, equipment_id, service_date) VALUES (1, 5, '2022-01-01');
+INSERT INTO gym_equipment (gym_id, equipment_id, service_date) VALUES (2, 2, '2022-01-01');
+INSERT INTO gym_equipment (gym_id, equipment_id, service_date) VALUES (2, 4, '2022-01-01');
+INSERT INTO gym_equipment (gym_id, equipment_id, service_date) VALUES (2, 6, '2022-01-01');
+
+-- Employee
+INSERT INTO employee (name, address, phone, email) VALUES ('Sara Johnson', '100 Oak Street', '555-1111', 'sara.johnson@example.com');
+INSERT INTO employee (name, address, phone, email) VALUES ('Mike Brown', '200 Maple Avenue', '555-2222', 'mike.brown@example.com');
+
+-- Gym Employee
+INSERT INTO gym_employee (id_gym, id_employee) VALUES (1, 1);
+INSERT INTO gym_employee (id_gym, id_employee) VALUES (2, 2);
+
+-- Instructor
+INSERT INTO instructor (id_employee, bio, photo) VALUES (1, 'Certified Personal Trainer', 'sara.jpg');
+INSERT INTO instructor (id_employee, bio, photo) VALUES (2, 'Certified Yoga Instructor', 'mike.jpg');
+
+-- Challange
+INSERT INTO challange (date_from, date_to, min_entries) VALUES ('2019-01-01', '2019-01-31', 2);
+INSERT INTO challange (date_from, date_to, min_entries) VALUES ('2019-02-01', '2019-02-28', 4);
+
+-- Award
+INSERT INTO award (name, description) VALUES ('Bag', 'Best bag ever');
+INSERT INTO award (name, description) VALUES ('T-shirt', 'Best t-shirt ever');
+
+-- Challange Award
+INSERT INTO challange_award (id_challange, id_award) VALUES (1, 1);
+INSERT INTO challange_award (id_challange, id_award) VALUES (2, 2);
+
+-- Gym Challange
+INSERT INTO gym_challange (id_gym, id_challange) VALUES (1, 1);
+INSERT INTO gym_challange (id_gym, id_challange) VALUES (2, 2);
+
+-- Class Type
+INSERT INTO class_type (name) VALUES ('Yoga');
+INSERT INTO class_type (name) VALUES ('Zumba');
+
+-- Class
+INSERT INTO class (gym, name, description, activity_type, instructor, capacity) VALUES (1, 'Yoga', 'Yoga for beginners', 1, 1, 10);
+INSERT INTO class (gym, name, description, activity_type, instructor, capacity) VALUES (2, 'Zumba', 'Zumba for beginners', 2, 2, 10);
+
+-- Class Client
+INSERT INTO class_client (class_id, client_id) VALUES (1, 1);
+INSERT INTO class_client (class_id, client_id) VALUES (2, 2);
+INSERT INTO class_client (class_id, client_id) VALUES (2, 1);
+INSERT INTO class_client (class_id, client_id) VALUES (1, 2);
+
+-- Class Schedule
+INSERT INTO class_schedule (class_id, start_time, end_time, day_of_week) VALUES (1, '2019-01-01 10:00:00', '2019-01-01 11:00:00', 1);
+INSERT INTO class_schedule (class_id, start_time, end_time, day_of_week) VALUES (2, '2019-01-03 12:00:00', '2019-01-03 13:00:00', 3);
+
+
+
