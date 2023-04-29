@@ -168,6 +168,14 @@ CREATE TABLE challange (
     CONSTRAINT check_dates CHECK (date_from <= date_to)
 );
 
+CREATE TABLE gym_challange (
+    id_gym int NOT NULL,
+    id_challange int NOT NULL,
+    FOREIGN KEY (id_gym) REFERENCES gym(id),
+    FOREIGN KEY (id_challange) REFERENCES challange(id),
+    UNIQUE (id_gym, id_challange)
+);
+
 CREATE TABLE award (
     id SERIAL,
     name varchar(100) UNIQUE NOT NULL,
