@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS gym_equipment, equipment, equipment_type, gym;
+DROP TABLE IF EXISTS gym_equipment, equipment, equipment_type, gym, pass, client, pass_client, employee, gym_employee;
 
 CREATE TABLE gym (
     id SERIAL,
