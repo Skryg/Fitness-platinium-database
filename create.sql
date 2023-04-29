@@ -135,6 +135,7 @@ CREATE TABLE class_schedule (
     day_of_week int NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (class_id) REFERENCES class(id)
+);
 
 CREATE TABLE blacklist (
     id_client int UNIQUE NOT NULL,
