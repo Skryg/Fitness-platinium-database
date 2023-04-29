@@ -1,8 +1,3 @@
-DROP TABLE IF EXISTS gym_equipment, equipment, 
-equipment_type, gym, pass, client, pass_client, 
-employee, gym_employee, blacklist, entry, challange, award, challange_award, 
-instructor, class, class_client, class_schedule, class_type, schedule CASCADE;
-
 CREATE TABLE gym (
     id SERIAL,
     address varchar(255) NOT NULL,
@@ -44,8 +39,8 @@ CREATE TABLE client(
     id_pass int NOT NULL,
     name varchar(255) NOT NULL,
     address varchar(255) NOT NULL,
-    phone varchar(255) NOT NULL,
-    email varchar(255) NOT NULL,
+    phone varchar(255) UNIQUE,
+    email varchar(255) UNIQUE,
     PRIMARY KEY (id)
 );
 
@@ -61,8 +56,8 @@ CREATE TABLE employee(
     id SERIAL,
     name varchar(255) NOT NULL,
     address varchar(255) NOT NULL,
-    phone varchar(255) NOT NULL,
-    email varchar(255) NOT NULL,
+    phone varchar(255) NOT NULL UNIQUE,
+    email varchar(255) NOT NULL UNIQUE,
     PRIMARY KEY (id)
 );
 
