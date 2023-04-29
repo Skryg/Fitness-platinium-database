@@ -67,32 +67,33 @@ CREATE TABLE employee(
 );
 
 CREATE TABLE gym_employee(
+    id SERIAL,
     id_gym int NOT NULL,
     id_employee int NOT NULL,
-    PRIMARY KEY (id_gym, id_employee),
+    PRIMARY KEY (id),
+    UNIQUE(id_gym, id_employee),
     FOREIGN KEY (id_gym) REFERENCES gym(id),
     FOREIGN KEY (id_employee) REFERENCES employee(id)
 );
 
 
 CREATE TABLE instructor (
-    id SERIAL,
-    id_employee int NOT NULL,
+    id_employee int,
     bio text,
     photo varchar(255),
-    PRIMARY KEY (id),
+    PRIMARY KEY (id_employee),
     FOREIGN KEY (id_employee) REFERENCES employee(id)
 );
 
 CREATE TABLE schedule (
     id SERIAL,
-    id_gym int NOT NULL,
-
+    id_gym_employee int NOT NULL,
     start_time time NOT NULL,
     end_time time NOT NULL,
     work_date date NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (id_gym) REFERENCES gym(id)
+    FOREIGN KEY (id_gym_employee) REFERENCES gym_employee(id),
+    CONSTRAINT check_times CHECK (start_time <= end_time)
 );
 
 
@@ -107,13 +108,14 @@ CREATE TABLE class (
     gym int NOT NULL,
     name varchar(255) NOT NULL,
     description text,
-    type int NOT NULL,
+    activity_type int NOT NULL,
     instructor int NOT NULL,
     capacity int,
     PRIMARY KEY (id),
-    FOREIGN KEY (instructor) REFERENCES instructor(id),
+    FOREIGN KEY (instructor) REFERENCES instructor(id_employee),
     FOREIGN KEY (gym) REFERENCES gym(id),
-    FOREIGN KEY (type) REFERENCES class_type(id)
+    FOREIGN KEY (activity_type) REFERENCES class_type(id),
+    CONSTRAINT check_capacity CHECK (capacity > 0)
 );
 
 
@@ -132,7 +134,9 @@ CREATE TABLE class_schedule (
     end_time time NOT NULL,
     day_of_week int NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (class_id) REFERENCES class(id)
+    FOREIGN KEY (class_id) REFERENCES class(id),
+    CONSTRAINT check_times CHECK (start_time <= end_time),
+    CONSTRAINT check_day CHECK (day_of_week BETWEEN 0 AND 6)
 );
 
 CREATE TABLE blacklist (
