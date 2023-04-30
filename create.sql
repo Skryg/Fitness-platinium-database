@@ -29,9 +29,18 @@ CREATE TABLE gym_equipment(
 
 CREATE TABLE pass (
     id SERIAL,
-    id_gym int NOT NULL,
+    name varchar(256) NOT NULL,
+    price numeric(10, 2) NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (id_gym) REFERENCES gym(id)
+    CONSTRAINT price_check CHECK (price>=0)
+);
+
+CREATE TABLE pass_gym (
+    id_pass int NOT NULL,
+    id_gym int NOT NULL,
+    FOREIGN KEY (id_pass) REFERENCES pass(id),
+    FOREIGN KEY (id_gym) REFERENCES gym(id),
+    UNIQUE (id_pass, id_gym)
 );
 
 CREATE TABLE client(
@@ -210,8 +219,14 @@ INSERT INTO client (id_pass, name, address, phone, email) VALUES (1, 'Dymeg Bonh
 INSERT INTO client (id_pass, name, address, phone, email) VALUES (2, 'Ozgar Skryg', 'Czemstochowska', '420420420', 'os@gmail.com');
 
 -- Pass
-INSERT INTO pass (id_gym) VALUES (1);
-INSERT INTO pass (id_gym) VALUES (2);
+INSERT INTO pass (name, price) VALUES ('Pompuj z pompą', 100);
+INSERT INTO pass (name, price) VALUES ('Open Beer Carnet', 200);
+
+-- Pass Gym
+INSERT INTO pass_gym (id_pass, id_gym) VALUES (1, 2);
+INSERT INTO pass_gym (id_pass, id_gym) VALUES (2, 1);
+INSERT INTO pass_gym (id_pass, id_gym) VALUES (2, 2);
+
 
 -- Pass Client
 INSERT INTO pass_client (id_pass, id_client) VALUES (1, 1);
