@@ -63,7 +63,7 @@ CREATE TABLE employee(
 
 CREATE TABLE gym_employee(
     id SERIAL,
-    id_gym int NOT NULL,
+    id_gym int,
     id_employee int NOT NULL,
     PRIMARY KEY (id),
     UNIQUE(id_gym, id_employee),
@@ -71,6 +71,18 @@ CREATE TABLE gym_employee(
     FOREIGN KEY (id_employee) REFERENCES employee(id)
 );
 
+CREATE TABLE employee_user(
+    id SERIAL,
+    id_employee int NOT NULL,
+    username varchar(128) NOT NULL UNIQUE,
+    password varchar(256) NOT NULL,
+    permission int NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_employee) REFERENCES gym_employee(id),
+    CONSTRAINT check_password CHECK (length(password) >= 8),
+    CONSTRAINT check_username CHECK (length(username) >= 4),
+    CONSTRAINT check_permission CHECK (permission BETWEEN 0 AND 2)
+);
 
 CREATE TABLE instructor (
     id_employee int,
@@ -188,6 +200,7 @@ CREATE TABLE challange_award (
 );
 
 
+
 -- Gym
 INSERT INTO gym (address) VALUES ('Bratyslawska 3');
 INSERT INTO gym (address) VALUES ('Aleja Pokoju 16');
@@ -239,6 +252,10 @@ INSERT INTO employee (name, address, phone, email) VALUES ('Mike Brown', '200 Ma
 INSERT INTO gym_employee (id_gym, id_employee) VALUES (1, 1);
 INSERT INTO gym_employee (id_gym, id_employee) VALUES (2, 2);
 
+-- Employee User
+INSERT INTO employee_user (id_employee, username, password, permission) VALUES (1, 'sara', 'zupa_koperkowa', 0);
+INSERT INTO employee_user (id_employee, username, password, permission) VALUES (2, 'miki', 'fikumiku', 1);
+
 -- Instructor
 INSERT INTO instructor (id_employee, bio, photo) VALUES (1, 'Certified Personal Trainer', 'sara.jpg');
 INSERT INTO instructor (id_employee, bio, photo) VALUES (2, 'Certified Yoga Instructor', 'mike.jpg');
@@ -276,6 +293,3 @@ INSERT INTO class_client (class_id, client_id) VALUES (1, 2);
 -- Class Schedule
 INSERT INTO class_schedule (class_id, start_time, end_time, day_of_week) VALUES (1, '2019-01-01 10:00:00', '2019-01-01 11:00:00', 1);
 INSERT INTO class_schedule (class_id, start_time, end_time, day_of_week) VALUES (2, '2019-01-03 12:00:00', '2019-01-03 13:00:00', 3);
-
-
-
