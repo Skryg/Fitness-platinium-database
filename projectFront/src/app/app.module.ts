@@ -5,16 +5,22 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ClientListComponent } from './client-list/client-list.component';
+import { AddClientComponent } from './add-client/add-client.component';
+import { FormsModule } from '@angular/forms';
+import { FindClientComponent } from './find-client/find-client.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ClientListComponent
+    ClientListComponent,
+    AddClientComponent,
+    FindClientComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

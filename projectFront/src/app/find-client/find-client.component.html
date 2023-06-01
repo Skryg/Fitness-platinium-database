@@ -1,0 +1,15 @@
+<h1>Find client</h1>
+
+<form (ngSubmit) = "onSubmit()">
+    <label for="name">Enter id</label>
+    <input type="int" id="id" [(ngModel)] = "id" name = "id">
+    <button type="submit">Submit</button>
+</form>
+<p *ngIf="clientShow">{{
+    client.id + " " +
+    client.address + " " +
+    client.email + " " +
+    client.name + " " +
+    client.phone    
+}}</p>
+<button *ngIf="delButton" (click) = "deleteClient(client.id)">Delete</button>

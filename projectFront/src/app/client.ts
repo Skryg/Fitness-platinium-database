@@ -6,7 +6,7 @@ export class Client {
     phone: string;
 
     constructor(){
-        this.id = 0;
+        this.id = 10000000;
         this.address = "";
         this.email = "";
         this.name = "";
