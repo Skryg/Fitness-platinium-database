@@ -42,5 +42,8 @@ public class ClientService {
         return clientRepository.getEntriesByClient(id);
     }
 
+    public List<Client> getClientsByGym(Long id) {
+        return clientRepository.getClientsByGym(id);
+    }
 
 }

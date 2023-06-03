@@ -1,4 +1,10 @@
+
 <h1>List of clients</h1>
+<form (ngSubmit)="onSubmit()">
+    <label for="name">Enter gym id</label>
+    <input type="int" id="id" [(ngModel)] = "id" name = "id">
+    <button type="submit">Submit</button>
+</form>
 <table>
     <tr>
         <th>Id</th>

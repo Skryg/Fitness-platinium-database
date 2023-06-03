@@ -35,8 +35,14 @@ public class ClientController {
     }
 
     @GetMapping("/entries/{id}")
+    @CrossOrigin(origins = "http://localhost:4200")
     public List<Object[]> getEntriesByClient(@PathVariable Long id) {
         return clientService.getEntriesByClient(id);
+    }
+
+    @GetMapping("/gym/{id}")
+    public List<Client> getClientsByGym(@PathVariable Long id) {
+        return clientService.getClientsByGym(id);
     }
 
 

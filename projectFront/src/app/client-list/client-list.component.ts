@@ -9,6 +9,7 @@ import { ClientService } from '../client.service';
 })
 export class ClientListComponent implements OnInit {
   clients: Client[] = [];
+  id: number = 0;
 
   constructor(private clientService: ClientService) { }
 
@@ -21,6 +22,10 @@ export class ClientListComponent implements OnInit {
       .subscribe(clients => this.clients = clients);
   }
 
+  onSubmit() {
+    this.clientService.getClientsbyGym(this.id)
+    .subscribe(clients => this.clients = clients);
+  }
 
 
 
