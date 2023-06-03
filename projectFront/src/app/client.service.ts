@@ -27,4 +27,8 @@ export class ClientService {
     return this.httpClient.delete(`${this.baseURL}/${id}`);
   }
 
+  public getEntriesByClient(id: number): Observable<Object> {
+    return this.httpClient.get(`${this.baseURL}/entries/${id}`);
+  }
+
 }

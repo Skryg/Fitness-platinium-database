@@ -34,5 +34,10 @@ public class ClientController {
         clientService.addNewClient(client);
     }
 
+    @GetMapping("/entries/{id}")
+    public List<Object[]> getEntriesByClient(@PathVariable Long id) {
+        return clientService.getEntriesByClient(id);
+    }
+
 
 }

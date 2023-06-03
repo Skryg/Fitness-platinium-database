@@ -38,5 +38,9 @@ public class ClientService {
         clientRepository.deleteById(id);
     }
 
+    public List<Object[]> getEntriesByClient(Long id) {
+        return clientRepository.getEntriesByClient(id);
+    }
+
 
 }

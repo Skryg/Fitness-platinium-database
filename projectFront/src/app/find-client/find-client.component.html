@@ -13,3 +13,9 @@
     client.phone    
 }}</p>
 <button *ngIf="delButton" (click) = "deleteClient(client.id)">Delete</button>
+<button *ngIf="delButton" (click) = "getEntriesByClient(client.id)">Entries</button>
+<ng-container *ngIf="entriesShow">
+    <p *ngFor="let entry of formatEntries(entries)">{{ entry }}</p>
+  </ng-container>
+  
+  
