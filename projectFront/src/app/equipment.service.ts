@@ -11,7 +11,7 @@ export class EquipmentService {
 
   
   private eqURL = "http://localhost:8080/equipment";
-  public getEquipment(id: number): Observable<Object> {
-    return this.httpEquipment.get(`${this.eqURL}/${id}`);
+  public getEquipment(id: number, date1: Date, date2: Date): Observable<Object> {
+    return this.httpEquipment.get(`${this.eqURL}/${id}/${date1}/${date2}`);
   }
 }

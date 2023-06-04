@@ -21,7 +21,7 @@ export class EquipmentComponent {
     }
 
     getEquipment(): void {
-      this.equipmentService.getEquipment(this.id)
+      this.equipmentService.getEquipment(this.id, this.date1, this.date2)
           .subscribe( data => { console.log(data);
             this.equipment = data.toString();
           }, error => console.log(error));
