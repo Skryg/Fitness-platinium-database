@@ -39,7 +39,6 @@ CREATE TABLE pass_gym (
 CREATE TABLE client(
     id SERIAL,
     name varchar(32) NOT NULL,
-    surname varchar(32) NOT NULL,
     address varchar(128) NOT NULL,
     phone text UNIQUE,
     email varchar(64) UNIQUE,
