@@ -109,21 +109,25 @@ CREATE TABLE instructor (
 
 CREATE TABLE default_employee_schedule (
     id_employee int NOT NULL,
+    id_gym int NOT NULL,
     day_of_week int NOT NULL,
     start_time time NOT NULL,
     end_time time NOT NULL,
     FOREIGN KEY (id_employee) REFERENCES employee(id),
+    FOREIGN KEY (id_gym) REFERENCES gym(id),
     CONSTRAINT day_check CHECK(day_of_week BETWEEN 1 AND 7),
     CONSTRAINT time_check CHECK(start_time < end_time)
 );
 
 CREATE TABLE employee_schedule (
     id SERIAL,
+    id_gym int NOT NULL,
     id_employee int NOT NULL,
     start_time time NOT NULL,
     end_time time NOT NULL,
     start_date date NOT NULL,
     PRIMARY KEY (id),
+    FOREIGN KEY (id_gym) REFERENCES gym(id),
     FOREIGN KEY (id_employee) REFERENCES employee(id),
     CONSTRAINT check_times CHECK (start_time <= end_time)
 );
