@@ -197,6 +197,7 @@ CREATE TABLE award (
     name varchar(64) UNIQUE NOT NULL,
     description varchar(512),
     PRIMARY KEY (id)
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE challenge_award (
