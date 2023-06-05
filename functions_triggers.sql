@@ -132,3 +132,30 @@ CREATE OR REPLACE FUNCTION get_employee_week_schedule(gym int, "date" date)
     RETURNS employee_schedule AS $$
     SELECT * from get_employee_schedule(gym, date_trunc('week', "date")::date, (date_trunc('week', "date")+interval '6 days')::date)
 $$ LANGUAGE SQL;
+
+-- get class schedules in given period for given instructor
+CREATE OR REPLACE FUNCTION get_class_instructor_schedule(gym int, instructor int, "from" date, "to" date)
+    RETURNS class_schedule AS $$
+    SELECT cs.* FROM class_schedule cs JOIN class c ON cs.id_class = c.id 
+        WHERE cs.start_date BETWEEN "from" AND "to"
+        AND c.gym = gym
+        AND c.instructor = instructor
+$$ LANGUAGE SQL;
+
+-- get class schedules on all gyms
+CREATE OR REPLACE FUNCTION get_class_schedule_all("from" date, "to" date)
+    RETURNS class_schedule AS
+    SELECT * FROM class_schedule 
+        WHERE cs.start_date BETWEEN "from" AND "to"
+$$ LANGUAGE SQL;
+
+-- ENTRIES
+CREATE OR REPLACE FUNCTION get_entries_num()
+    RETURNS bigint AS
+$$
+    SELECT count(*) FROM entry;
+$$ LANGUAGE SQL;
+
+CREATE OR REPLACE FUNCTION get_client_entries(client int) RETURNS bigint AS $$
+    SELECT count(*) FROM entry WHERE id_client = client;
+$$ LANGUAGE SQL;
