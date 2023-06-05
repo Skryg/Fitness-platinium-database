@@ -34,22 +34,15 @@ INSERT INTO entry (enter_time, exit_time, id_gym, id_client) VALUES ('2019-01-05
 INSERT INTO equipment_type (name) VALUES ('Treadmill');
 INSERT INTO equipment_type (name) VALUES ('Elliptical');
 INSERT INTO equipment_type (name) VALUES ('Weight Machine');
-
--- Equipment
-INSERT INTO equipment (id_type) VALUES (1);
-INSERT INTO equipment (id_type) VALUES (1);
-INSERT INTO equipment (id_type) VALUES (2);
-INSERT INTO equipment (id_type) VALUES (2);
-INSERT INTO equipment (id_type) VALUES (3);
-INSERT INTO equipment (id_type) VALUES (3);
+INSERT INTO equipment_type (name) VALUES ('Zipline');
 
 -- Gym Equipment
-INSERT INTO gym_equipment (gym_id, equipment_id, service_date) VALUES (1, 1, '2022-01-01');
-INSERT INTO gym_equipment (gym_id, equipment_id, service_date) VALUES (1, 3, '2022-01-01');
-INSERT INTO gym_equipment (gym_id, equipment_id, service_date) VALUES (1, 5, '2022-01-01');
-INSERT INTO gym_equipment (gym_id, equipment_id, service_date) VALUES (2, 2, '2022-01-01');
-INSERT INTO gym_equipment (gym_id, equipment_id, service_date) VALUES (2, 4, '2022-01-01');
-INSERT INTO gym_equipment (gym_id, equipment_id, service_date) VALUES (2, 6, '2022-01-01');
+INSERT INTO gym_equipment (gym_id, equipment_type_id, service_date) VALUES (1, 1, '2022-01-01');
+INSERT INTO gym_equipment (gym_id, equipment_type_id, service_date) VALUES (1, 3, '2022-01-01');
+INSERT INTO gym_equipment (gym_id, equipment_type_id, service_date) VALUES (1, 2, '2022-01-01');
+INSERT INTO gym_equipment (gym_id, equipment_type_id, service_date) VALUES (2, 3, '2022-01-01');
+INSERT INTO gym_equipment (gym_id, equipment_type_id, service_date) VALUES (2, 1, '2022-01-01');
+INSERT INTO gym_equipment (gym_id, equipment_type_id, service_date) VALUES (2, 4, '2022-01-01');
 
 -- Employee
 INSERT INTO employee (name, address, phone, email) VALUES ('Sara Johnson', '100 Oak Street', '555-1111', 'sara.johnson@example.com');
@@ -64,8 +57,8 @@ INSERT INTO employee_user (id_employee, username, password, permission) VALUES (
 INSERT INTO employee_user (id_employee, username, password, permission) VALUES (2, 'miki', 'fikumiku', 1);
 
 -- Instructor
-INSERT INTO instructor (id_employee, bio, photo) VALUES (1, 'Certified Personal Trainer', 'sara.jpg');
-INSERT INTO instructor (id_employee, bio, photo) VALUES (2, 'Certified Yoga Instructor', 'mike.jpg');
+INSERT INTO instructor (id_employee, bio) VALUES (1, 'Certified Personal Trainer');
+INSERT INTO instructor (id_employee, bio) VALUES (2, 'Certified Yoga Instructor');
 
 -- challenge
 INSERT INTO challenge (date_from, date_to, min_entries) VALUES ('2019-01-01', '2019-01-31', 2);
