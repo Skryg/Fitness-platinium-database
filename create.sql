@@ -12,12 +12,12 @@ CREATE TABLE equipment_type (
 );
 
 CREATE TABLE gym_equipment(
-    gym_id int NOT NULL,
-    equipment_type_id int NOT NULL,
+    id_gym int NOT NULL,
+    id_equipment_type int NOT NULL,
     service_date date NOT NULL,
-    PRIMARY KEY (gym_id, equipment_type_id),
-    FOREIGN KEY (gym_id) REFERENCES gym(id),
-    FOREIGN KEY (equipment_type_id) REFERENCES equipment_type(id)
+    PRIMARY KEY (id_gym, id_equipment_type),
+    FOREIGN KEY (id_gym) REFERENCES gym(id),
+    FOREIGN KEY (id_equipment_type) REFERENCES equipment_type(id)
 );
 
 CREATE TABLE pass (
@@ -36,17 +36,35 @@ CREATE TABLE pass_gym (
     UNIQUE (id_pass, id_gym)
 );
 
+CREATE OR REPLACE FUNCTION add_country_code()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.phone = '+48' || NEW.phone;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
 CREATE TABLE client(
     id SERIAL,
     name varchar(32) NOT NULL,
-    surname varchar(32) NOT NULL
+    surname varchar(32) NOT NULL,
     address varchar(128) NOT NULL,
     phone text UNIQUE,
     email varchar(64) UNIQUE,
     PRIMARY KEY (id),
-    CONSTRAINT valid_phone_number CHECK (phone ~ '^\+?[0-9]{1,3}-?[0-9]{3}-?[0-9]{3}-?[0-9]{4}$'),
-    CONSTRAINT valid_email CHECK (email ~ '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$')
+    CONSTRAINT valid_email CHECK (email ~ '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'),
+    CONSTRAINT valid_phone_number CHECK (
+        phone ~ '^\+?[0-9]{1,3}-?[0-9]{3}-?[0-9]{3}-?[0-9]{4}$' OR
+        phone ~ '^[0-9]{9}$'
+    )
 );
+
+CREATE TRIGGER add_country_code
+BEFORE INSERT OR UPDATE ON client
+    FOR EACH ROW
+    WHEN (NEW.phone ~ '^[0-9]{9}$')
+    EXECUTE FUNCTION add_country_code();
 
 CREATE TABLE pass_client(
     id_pass int NOT NULL,
@@ -61,15 +79,23 @@ CREATE TABLE pass_client(
 CREATE TABLE employee(
     id SERIAL,
     name varchar(32) NOT NULL,
-    surname  varchar(32) NOT NULL
+    surname  varchar(32) NOT NULL,
     address varchar(128) NOT NULL,
     phone text NOT NULL UNIQUE,
     email varchar(320) NOT NULL UNIQUE,
     PRIMARY KEY (id),
-    CONSTRAINT valid_phone_number CHECK (phone ~ '^\+?[0-9]{1,3}-?[0-9]{3}-?[0-9]{3}-?[0-9]{4}$'),
-    CONSTRAINT valid_email CHECK (email ~ '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$')
-
+    CONSTRAINT valid_email CHECK (email ~ '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'),
+    CONSTRAINT valid_phone_number CHECK (
+        phone ~ '^\+?[0-9]{1,3}-?[0-9]{3}-?[0-9]{3}-?[0-9]{4}$' OR
+        phone ~ '^[0-9]{9}$'
+    )
 );
+
+CREATE TRIGGER add_country_code
+BEFORE INSERT OR UPDATE ON employee
+    FOR EACH ROW
+    WHEN (NEW.phone ~ '^[0-9]{9}$')
+    EXECUTE FUNCTION add_country_code();
 
 CREATE TABLE gym_employee (
     id_gym int,
@@ -100,7 +126,17 @@ CREATE TABLE instructor (
     FOREIGN KEY (id_employee) REFERENCES employee(id)
 );
 
-CREATE TABLE schedule (
+CREATE TABLE default_employee_schedule (
+    id_employee int NOT NULL,
+    day_of_week int NOT NULL,
+    start_time time NOT NULL,
+    end_time time NOT NULL,
+    FOREIGN KEY (id_employee) REFERENCES employee(id),
+    CONSTRAINT day_check CHECK(day_of_week BETWEEN 1 AND 7),
+    CONSTRAINT time_check CHECK(start_time < end_time)
+);
+
+CREATE TABLE employee_schedule (
     id SERIAL,
     id_employee int NOT NULL,
     start_time time NOT NULL,
@@ -137,9 +173,21 @@ CREATE TABLE class (
 CREATE TABLE class_client (
     id_class int NOT NULL,
     id_client int NOT NULL,
-    PRIMARY KEY (class_id, client_id),
-    FOREIGN KEY (class_id) REFERENCES class(id),
-    FOREIGN KEY (client_id) REFERENCES client(id)
+    PRIMARY KEY (id_class, id_client),
+    FOREIGN KEY (id_class) REFERENCES class(id),
+    FOREIGN KEY (id_client) REFERENCES client(id)
+);
+
+CREATE TABLE default_class_schedule (
+    id SERIAL,
+    id_class int NOT NULL,
+    day_of_week int NOT NULL,
+    start_time time NOT NULL,
+    end_time time NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_class) REFERENCES class(id),
+    CONSTRAINT day_check CHECK(day_of_week BETWEEN 1 AND 7),
+    CONSTRAINT time_check CHECK(start_time < end_time)
 );
 
 CREATE TABLE class_schedule (
@@ -147,12 +195,12 @@ CREATE TABLE class_schedule (
     id_class int NOT NULL,
     start_time time NOT NULL,
     end_time time NOT NULL,
-    day_of_week int NOT NULL,
+    start_date date NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (class_id) REFERENCES class(id),
-    CONSTRAINT check_times CHECK (start_time <= end_time),
-    CONSTRAINT check_day CHECK (day_of_week BETWEEN 0 AND 6)
+    FOREIGN KEY (id_class) REFERENCES class(id),
+    CONSTRAINT check_times CHECK (start_time <= end_time)
 );
+
 
 CREATE TABLE blacklist (
     id_client int UNIQUE NOT NULL,
@@ -196,7 +244,6 @@ CREATE TABLE award (
     id SERIAL,
     name varchar(64) UNIQUE NOT NULL,
     description varchar(512),
-    PRIMARY KEY (id)
     PRIMARY KEY (id)
 );
 

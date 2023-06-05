@@ -5,4 +5,5 @@ employee, gym_employee, employee_user,
 blacklist, entry,
 challenge, award, challenge_award, 
 instructor, class, class_client, class_schedule, class_type,
-schedule, gym_challenge CASCADE;
+schedule, gym_challenge, default_employee_schedule, default_class_schedule
+CASCADE;

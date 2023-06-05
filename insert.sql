@@ -5,8 +5,8 @@ INSERT INTO gym (city, address) VALUES ('Kraków', 'Bratyslawska 3');
 INSERT INTO gym (city, address) VALUES ('Kraków', 'Aleja Pokoju 16');
 
 -- Client
-INSERT INTO client (name, address, phone, email) VALUES ('Dymeg Bonham', 'Powstancow Slomskich', '666666666', 'db@gmail.com');
-INSERT INTO client (name, address, phone, email) VALUES ('Ozgar Skryg', 'Czemstochowska', '420420420', 'os@gmail.com');
+INSERT INTO client (name, surname, address, phone, email) VALUES ('Dymeg', 'Bonham', 'Powstancow Slomskich', '666666666', 'db@gmail.com');
+INSERT INTO client (name, surname, address, phone, email) VALUES ('Ozgar', 'Skryg', 'Czemstochowska', '420420420', 'os@gmail.com');
 
 -- Pass
 INSERT INTO pass (name, price) VALUES ('Pompuj z pompą', 100);
@@ -37,16 +37,16 @@ INSERT INTO equipment_type (name) VALUES ('Weight Machine');
 INSERT INTO equipment_type (name) VALUES ('Zipline');
 
 -- Gym Equipment
-INSERT INTO gym_equipment (gym_id, equipment_type_id, service_date) VALUES (1, 1, '2022-01-01');
-INSERT INTO gym_equipment (gym_id, equipment_type_id, service_date) VALUES (1, 3, '2022-01-01');
-INSERT INTO gym_equipment (gym_id, equipment_type_id, service_date) VALUES (1, 2, '2022-01-01');
-INSERT INTO gym_equipment (gym_id, equipment_type_id, service_date) VALUES (2, 3, '2022-01-01');
-INSERT INTO gym_equipment (gym_id, equipment_type_id, service_date) VALUES (2, 1, '2022-01-01');
-INSERT INTO gym_equipment (gym_id, equipment_type_id, service_date) VALUES (2, 4, '2022-01-01');
+INSERT INTO gym_equipment (id_gym, id_equipment_type, service_date) VALUES (1, 1, '2022-01-01');
+INSERT INTO gym_equipment (id_gym, id_equipment_type, service_date) VALUES (1, 3, '2022-01-01');
+INSERT INTO gym_equipment (id_gym, id_equipment_type, service_date) VALUES (1, 2, '2022-01-01');
+INSERT INTO gym_equipment (id_gym, id_equipment_type, service_date) VALUES (2, 3, '2022-01-01');
+INSERT INTO gym_equipment (id_gym, id_equipment_type, service_date) VALUES (2, 1, '2022-01-01');
+INSERT INTO gym_equipment (id_gym, id_equipment_type, service_date) VALUES (2, 4, '2022-01-01');
 
 -- Employee
-INSERT INTO employee (name, address, phone, email) VALUES ('Sara Johnson', '100 Oak Street', '555-1111', 'sara.johnson@example.com');
-INSERT INTO employee (name, address, phone, email) VALUES ('Mike Brown', '200 Maple Avenue', '555-2222', 'mike.brown@example.com');
+INSERT INTO employee (name, surname, address, phone, email) VALUES ('Sara','Johnson', '100 Oak Street', '696969696', 'sara.johnson@example.com');
+INSERT INTO employee (name, surname, address, phone, email) VALUES ('Mike','Brown', '200 Maple Avenue', '101101010', 'mike.brown@example.com');
 
 -- Gym Employee
 INSERT INTO gym_employee (id_gym, id_employee) VALUES (1, 1);
@@ -85,11 +85,11 @@ INSERT INTO class (gym, name, description, activity_type, instructor, capacity) 
 INSERT INTO class (gym, name, description, activity_type, instructor, capacity) VALUES (2, 'Zumba', 'Zumba for beginners', 2, 2, 10);
 
 -- Class Client
-INSERT INTO class_client (class_id, client_id) VALUES (1, 1);
-INSERT INTO class_client (class_id, client_id) VALUES (2, 2);
-INSERT INTO class_client (class_id, client_id) VALUES (2, 1);
-INSERT INTO class_client (class_id, client_id) VALUES (1, 2);
+INSERT INTO class_client (id_class, id_client) VALUES (1, 1);
+INSERT INTO class_client (id_class, id_client) VALUES (2, 2);
+INSERT INTO class_client (id_class, id_client) VALUES (2, 1);
+INSERT INTO class_client (id_class, id_client) VALUES (1, 2);
 
 -- Class Schedule
-INSERT INTO class_schedule (class_id, start_time, end_time, day_of_week) VALUES (1, '2019-01-01 10:00:00', '2019-01-01 11:00:00', 1);
-INSERT INTO class_schedule (class_id, start_time, end_time, day_of_week) VALUES (2, '2019-01-03 12:00:00', '2019-01-03 13:00:00', 3);
+INSERT INTO class_schedule (id_class, start_time, end_time, start_date) VALUES (1, '10:00:00', '11:00:00', '2019-02-03');
+INSERT INTO class_schedule (id_class, start_time, end_time, start_date) VALUES (2, '12:00:00', '13:00:00', '2019-01-03');
