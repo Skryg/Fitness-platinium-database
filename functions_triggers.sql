@@ -158,6 +158,10 @@ $$
     WHERE entry.id_gym=id;
 $$ LANGUAGE SQL;
 
+CREATE OR REPLACE FUNCTION get_client_entries(client int) RETURNS bigint AS $$
+    SELECT count(*) FROM entry WHERE id_client = client;
+$$ LANGUAGE SQL;
+
 CREATE OR REPLACE FUNCTION get_client_entries_d(client int, "from" date, "to" date) RETURNS bigint AS $$
     SELECT count(*) FROM entry WHERE id_client = client AND enter_time BETWEEN "from" AND "to";
 $$ LANGUAGE SQL;
