@@ -151,10 +151,11 @@ CREATE OR REPLACE FUNCTION get_class_schedule_all("from" date, "to" date)
 $$ LANGUAGE SQL;
 
 -- ENTRIES
-CREATE OR REPLACE FUNCTION get_entries_num()
+CREATE OR REPLACE FUNCTION get_entries_num(id int)
     RETURNS bigint AS
 $$
-    SELECT count(*) FROM entry;
+    SELECT count(*) FROM entry
+    WHERE entry.id_gym=id;
 $$ LANGUAGE SQL;
 
 CREATE OR REPLACE FUNCTION get_client_entries(client int) RETURNS bigint AS $$
