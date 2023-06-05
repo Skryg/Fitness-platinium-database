@@ -145,15 +145,17 @@ $$ LANGUAGE SQL;
 -- get class schedules on all gyms
 CREATE OR REPLACE FUNCTION get_class_schedule_all("from" date, "to" date)
     RETURNS class_schedule AS
-    SELECT * FROM class_schedule 
+  $$
+    SELECT * FROM class_schedule cs
         WHERE cs.start_date BETWEEN "from" AND "to"
 $$ LANGUAGE SQL;
 
 -- ENTRIES
-CREATE OR REPLACE FUNCTION get_entries_num()
+CREATE OR REPLACE FUNCTION get_entries_num(id int)
     RETURNS bigint AS
 $$
-    SELECT count(*) FROM entry;
+    SELECT count(*) FROM entry
+    WHERE entry.id_gym=id;
 $$ LANGUAGE SQL;
 
 CREATE OR REPLACE FUNCTION get_client_entries_d(client int, "from" date, "to" date) RETURNS bigint AS $$

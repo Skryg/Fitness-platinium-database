@@ -5,8 +5,8 @@ INSERT INTO gym (city, address) VALUES ('Kraków', 'Bratyslawska 3');
 INSERT INTO gym (city, address) VALUES ('Kraków', 'Aleja Pokoju 16');
 
 -- Client
-INSERT INTO client (name, surname, address, phone, email) VALUES ('Dymeg', 'Bonham', 'Powstancow Slomskich', '666666666', 'db@gmail.com');
-INSERT INTO client (name, surname, address, phone, email) VALUES ('Ozgar', 'Skryg', 'Czemstochowska', '420420420', 'os@gmail.com');
+INSERT INTO client (name, address, phone, email) VALUES ('Dymeg Bonham', 'Powstancow Slomskich', '666666666', 'db@gmail.com');
+INSERT INTO client (name, address, phone, email) VALUES ('Ozgar Skryg', 'Czemstochowska', '420420420', 'os@gmail.com');
 
 -- Pass
 INSERT INTO pass (name, price) VALUES ('Pompuj z pompą', 100);
