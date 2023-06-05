@@ -11,21 +11,13 @@ CREATE TABLE equipment_type (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE equipment (
-    id SERIAL,
-    id_type int NOT NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY (id_type) REFERENCES equipment_type(id)
-);
-
-
 CREATE TABLE gym_equipment(
     gym_id int NOT NULL,
-    equipment_id int NOT NULL,
+    equipment_type_id int NOT NULL,
     service_date date NOT NULL,
-    PRIMARY KEY (gym_id, equipment_id),
+    PRIMARY KEY (gym_id, equipment_type_id),
     FOREIGN KEY (gym_id) REFERENCES gym(id),
-    FOREIGN KEY (equipment_id) REFERENCES equipment(id)
+    FOREIGN KEY (equipment_type_id) REFERENCES equipment_type(id)
 );
 
 CREATE TABLE pass (
@@ -110,12 +102,12 @@ CREATE TABLE instructor (
 
 CREATE TABLE schedule (
     id SERIAL,
-    id_instructor int NOT NULL,
+    id_employee int NOT NULL,
     start_time time NOT NULL,
     end_time time NOT NULL,
-    work_date date NOT NULL,
+    start_date date NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (id_instructor) REFERENCES instructor(id_employee),
+    FOREIGN KEY (id_employee) REFERENCES employee(id),
     CONSTRAINT check_times CHECK (start_time <= end_time)
 );
 
@@ -166,6 +158,7 @@ CREATE TABLE blacklist (
     id_client int UNIQUE NOT NULL,
     date_from date NOT NULL,
     date_to date NOT NULL,
+    reason text NOT NULL,
     FOREIGN KEY (id_client) REFERENCES client(id),
     CONSTRAINT check_dates CHECK (date_from < date_to)
 );
