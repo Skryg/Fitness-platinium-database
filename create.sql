@@ -1,13 +1,13 @@
 CREATE TABLE gym (
     id SERIAL,
-    city varchar(50) NOT NULL,
-    address varchar(100) NOT NULL,
+    city varchar(64) NOT NULL,
+    address varchar(128) NOT NULL,
     PRIMARY KEY (id)
 );
 
-CREATE TABLE equipment_type(
+CREATE TABLE equipment_type (
     id SERIAL,
-    name varchar(50) NOT NULL,
+    name varchar(64) NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -30,7 +30,7 @@ CREATE TABLE gym_equipment(
 
 CREATE TABLE pass (
     id SERIAL,
-    name varchar(256) NOT NULL,
+    name varchar(64) NOT NULL,
     price numeric(6, 2) NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT price_check CHECK (price>=0)
@@ -46,11 +46,14 @@ CREATE TABLE pass_gym (
 
 CREATE TABLE client(
     id SERIAL,
-    name varchar(255) NOT NULL,
-    address varchar(255) NOT NULL,
-    phone varchar(255) UNIQUE,
-    email varchar(255) UNIQUE,
-    PRIMARY KEY (id)
+    name varchar(32) NOT NULL,
+    surname varchar(32) NOT NULL
+    address varchar(128) NOT NULL,
+    phone text UNIQUE,
+    email varchar(64) UNIQUE,
+    PRIMARY KEY (id),
+    CONSTRAINT valid_phone_number CHECK (phone ~ '^\+?[0-9]{1,3}-?[0-9]{3}-?[0-9]{3}-?[0-9]{4}$'),
+    CONSTRAINT valid_email CHECK (email ~ '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$')
 );
 
 CREATE TABLE pass_client(
@@ -65,14 +68,18 @@ CREATE TABLE pass_client(
 
 CREATE TABLE employee(
     id SERIAL,
-    name varchar(255) NOT NULL,
-    address varchar(255) NOT NULL,
-    phone varchar(255) NOT NULL UNIQUE,
-    email varchar(255) NOT NULL UNIQUE,
-    PRIMARY KEY (id)
+    name varchar(32) NOT NULL,
+    surname  varchar(32) NOT NULL
+    address varchar(128) NOT NULL,
+    phone text NOT NULL UNIQUE,
+    email varchar(320) NOT NULL UNIQUE,
+    PRIMARY KEY (id),
+    CONSTRAINT valid_phone_number CHECK (phone ~ '^\+?[0-9]{1,3}-?[0-9]{3}-?[0-9]{3}-?[0-9]{4}$'),
+    CONSTRAINT valid_email CHECK (email ~ '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$')
+
 );
 
-CREATE TABLE gym_employee(
+CREATE TABLE gym_employee (
     id_gym int,
     id_employee int NOT NULL,
     PRIMARY KEY (id_gym, id_employee),
@@ -81,11 +88,11 @@ CREATE TABLE gym_employee(
     FOREIGN KEY (id_employee) REFERENCES employee(id)
 );
 
-CREATE TABLE employee_user(
+CREATE TABLE employee_user (
     id SERIAL,
     id_employee int NOT NULL,
-    username varchar(128) NOT NULL UNIQUE,
-    password varchar(256) NOT NULL,
+    username varchar(32) NOT NULL UNIQUE,
+    password varchar(64) NOT NULL,
     permission int NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (id_employee) REFERENCES employee(id),
@@ -97,7 +104,6 @@ CREATE TABLE employee_user(
 CREATE TABLE instructor (
     id_employee int,
     bio text,
-    photo varchar(255),
     PRIMARY KEY (id_employee),
     FOREIGN KEY (id_employee) REFERENCES employee(id)
 );
@@ -116,14 +122,14 @@ CREATE TABLE schedule (
 
 CREATE TABLE class_type (
     id SERIAL,
-    name varchar(255) NOT NULL,
+    name varchar(64) NOT NULL,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE class (
     id SERIAL,
     gym int NOT NULL,
-    name varchar(255) NOT NULL,
+    name varchar(64) NOT NULL,
     description text,
     activity_type int NOT NULL,
     instructor int NOT NULL,
@@ -137,8 +143,8 @@ CREATE TABLE class (
 
 
 CREATE TABLE class_client (
-    class_id int NOT NULL,
-    client_id int NOT NULL,
+    id_class int NOT NULL,
+    id_client int NOT NULL,
     PRIMARY KEY (class_id, client_id),
     FOREIGN KEY (class_id) REFERENCES class(id),
     FOREIGN KEY (client_id) REFERENCES client(id)
@@ -146,7 +152,7 @@ CREATE TABLE class_client (
 
 CREATE TABLE class_schedule (
     id SERIAL,
-    class_id int NOT NULL,
+    id_class int NOT NULL,
     start_time time NOT NULL,
     end_time time NOT NULL,
     day_of_week int NOT NULL,
@@ -195,8 +201,8 @@ CREATE TABLE gym_challenge (
 
 CREATE TABLE award (
     id SERIAL,
-    name varchar(100) UNIQUE NOT NULL,
-    description varchar(500),
+    name varchar(64) UNIQUE NOT NULL,
+    description varchar(512),
     PRIMARY KEY (id)
 );
 
