@@ -145,7 +145,8 @@ $$ LANGUAGE SQL;
 -- get class schedules on all gyms
 CREATE OR REPLACE FUNCTION get_class_schedule_all("from" date, "to" date)
     RETURNS class_schedule AS
-    SELECT * FROM class_schedule 
+  $$
+    SELECT * FROM class_schedule cs
         WHERE cs.start_date BETWEEN "from" AND "to"
 $$ LANGUAGE SQL;
 
