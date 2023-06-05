@@ -36,15 +36,6 @@ CREATE TABLE pass_gym (
     UNIQUE (id_pass, id_gym)
 );
 
-CREATE OR REPLACE FUNCTION add_country_code()
-RETURNS TRIGGER AS $$
-BEGIN
-    NEW.phone = '+48' || NEW.phone;
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-
 CREATE TABLE client(
     id SERIAL,
     name varchar(32) NOT NULL,
@@ -60,11 +51,6 @@ CREATE TABLE client(
     )
 );
 
-CREATE TRIGGER add_country_code
-BEFORE INSERT OR UPDATE ON client
-    FOR EACH ROW
-    WHEN (NEW.phone ~ '^[0-9]{9}$')
-    EXECUTE FUNCTION add_country_code();
 
 CREATE TABLE pass_client(
     id_pass int NOT NULL,
@@ -91,11 +77,6 @@ CREATE TABLE employee(
     )
 );
 
-CREATE TRIGGER add_country_code
-BEFORE INSERT OR UPDATE ON employee
-    FOR EACH ROW
-    WHEN (NEW.phone ~ '^[0-9]{9}$')
-    EXECUTE FUNCTION add_country_code();
 
 CREATE TABLE gym_employee (
     id_gym int,
