@@ -72,10 +72,6 @@ INSERT INTO award (name, description) VALUES ('T-shirt', 'Best t-shirt ever');
 INSERT INTO challenge_award (id_challenge, id_award) VALUES (1, 1);
 INSERT INTO challenge_award (id_challenge, id_award) VALUES (2, 2);
 
--- Gym challenge
-INSERT INTO gym_challenge (id_gym, id_challenge) VALUES (1, 1);
-INSERT INTO gym_challenge (id_gym, id_challenge) VALUES (2, 2);
-
 -- Class Type
 INSERT INTO class_type (name) VALUES ('Yoga');
 INSERT INTO class_type (name) VALUES ('Zumba');

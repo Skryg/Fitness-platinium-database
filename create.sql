@@ -216,13 +216,6 @@ CREATE TABLE challenge (
     CONSTRAINT check_dates CHECK (date_from <= date_to)
 );
 
-CREATE TABLE gym_challenge (
-    id_gym int NOT NULL,
-    id_challenge int NOT NULL,
-    FOREIGN KEY (id_gym) REFERENCES gym(id),
-    FOREIGN KEY (id_challenge) REFERENCES challenge(id),
-    UNIQUE (id_gym, id_challenge)
-);
 
 CREATE TABLE award (
     id SERIAL,

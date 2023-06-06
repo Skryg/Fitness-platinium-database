@@ -166,6 +166,6 @@ CREATE OR REPLACE FUNCTION get_client_entries_d(client int, "from" date, "to" da
     SELECT count(*) FROM entry WHERE id_client = client AND enter_time BETWEEN "from" AND "to";
 $$ LANGUAGE SQL;
 
-CREATE OR REPLACE FUNCTION get_gym_entries_d(gym int, "from" date, "to" date) RETUNRS bigint AS
+CREATE OR REPLACE FUNCTION get_gym_entries_d(gym int, "from" date, "to" date) RETURNS bigint AS $$
     SELECT count(*) FROM entry WHERE gym = id_gym AND enter_time BETWEEN "from" AND "to";
 $$ LANGUAGE SQL;
