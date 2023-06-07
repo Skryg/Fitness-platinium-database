@@ -7,14 +7,9 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS add_country_code ON person;
 CREATE TRIGGER add_country_code
-BEFORE INSERT OR UPDATE ON client
-    FOR EACH ROW
-    WHEN (NEW.phone ~ '^[0-9]{9}$')
-    EXECUTE FUNCTION add_country_code();
-
-CREATE TRIGGER add_country_code
-BEFORE INSERT OR UPDATE ON employee
+BEFORE INSERT OR UPDATE ON person
     FOR EACH ROW
     WHEN (NEW.phone ~ '^[0-9]{9}$')
     EXECUTE FUNCTION add_country_code();
@@ -36,6 +31,7 @@ BEGIN
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
+DROP TRIGGER IF EXISTS check_default_working_hours_overlap on default_employee_schedule;
 CREATE TRIGGER check_default_working_hours_overlap
 BEFORE INSERT OR UPDATE ON default_employee_schedule
     FOR EACH ROW EXECUTE FUNCTION check_default_working_hours_overlap();
@@ -57,6 +53,7 @@ BEGIN
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
+DROP TRIGGER IF EXISTS check_working_hours_overlap on employee_schedule;
 CREATE TRIGGER check_working_hours_overlap
 BEFORE INSERT OR UPDATE ON employee_schedule
     FOR EACH ROW EXECUTE FUNCTION check_working_hours_overlap();
@@ -79,6 +76,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER  IF EXISTS check_class_default_hours_overlap on default_class_schedule;
 CREATE TRIGGER check_class_default_hours_overlap
 BEFORE INSERT OR UPDATE ON default_class_schedule
     FOR EACH ROW EXECUTE FUNCTION check_class_default_hours_overlap();
@@ -100,6 +98,7 @@ BEGIN
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
+DROP TRIGGER IF EXISTS check_class_hours_overlap on class_schedule;
 CREATE TRIGGER check_class_hours_overlap
 BEFORE INSERT OR UPDATE ON class_schedule
     FOR EACH ROW EXECUTE FUNCTION check_class_hours_overlap();
@@ -107,11 +106,11 @@ BEFORE INSERT OR UPDATE ON class_schedule
 
 
 -- get schedules for given date (week)
-CREATE OR REPLACE FUNCTION get_class_schedule(gym int, "from" date, "to" date)
+CREATE OR REPLACE FUNCTION get_class_schedule(des_gym int, "from" date, "to" date)
     RETURNS class_schedule AS $$
         SELECT cs.* FROM class_schedule cs JOIN class c ON cs.id_class = c.id 
         WHERE cs.start_date BETWEEN "from" AND "to"
-        AND c.gym = gym;
+        AND c.gym = des_gym;
 $$ LANGUAGE SQL;
 
     
@@ -133,13 +132,13 @@ CREATE OR REPLACE FUNCTION get_employee_week_schedule(gym int, "date" date)
     SELECT * from get_employee_schedule(gym, date_trunc('week', "date")::date, (date_trunc('week', "date")+interval '6 days')::date)
 $$ LANGUAGE SQL;
 
--- get class schedules in given period for given instructor
-CREATE OR REPLACE FUNCTION get_class_instructor_schedule(gym int, instructor int, "from" date, "to" date)
+-- get class schedules in given period for given instructor and gym
+CREATE OR REPLACE FUNCTION get_class_instructor_schedule(des_gym int, des_instructor int, "from" date, "to" date)
     RETURNS class_schedule AS $$
     SELECT cs.* FROM class_schedule cs JOIN class c ON cs.id_class = c.id 
         WHERE cs.start_date BETWEEN "from" AND "to"
-        AND c.gym = gym
-        AND c.instructor = instructor
+        AND c.gym = des_gym
+        AND cs.instructor = des_instructor
 $$ LANGUAGE SQL;
 
 -- get class schedules on all gyms
@@ -151,21 +150,44 @@ CREATE OR REPLACE FUNCTION get_class_schedule_all("from" date, "to" date)
 $$ LANGUAGE SQL;
 
 -- ENTRIES
-CREATE OR REPLACE FUNCTION get_entries_num(id int)
-    RETURNS bigint AS
+CREATE OR REPLACE FUNCTION get_gym_entries(des_id int)
+    RETURNS setof gym_entry AS
 $$
-    SELECT count(*) FROM entry
-    WHERE entry.id_gym=id;
+    SELECT * FROM gym_entry
+    WHERE gym_entry.id_gym=des_id;
 $$ LANGUAGE SQL;
 
-CREATE OR REPLACE FUNCTION get_client_entries(client int) RETURNS bigint AS $$
-    SELECT count(*) FROM entry WHERE id_client = client;
+-- for specific class (for example pilates 06-09-2004 16:00)
+CREATE OR REPLACE FUNCTION get_class_s_entries(des_id int)
+    RETURNS setof class_entry AS
+$$
+    SELECT * FROM class_entry
+    WHERE class_entry.id_class_schedule=des_id;
 $$ LANGUAGE SQL;
 
-CREATE OR REPLACE FUNCTION get_client_entries_d(client int, "from" date, "to" date) RETURNS bigint AS $$
-    SELECT count(*) FROM entry WHERE id_client = client AND enter_time BETWEEN "from" AND "to";
+-- for type of class (for example pilates)
+CREATE OR REPLACE FUNCTION get_class_entries(des_id int)
+    RETURNS setof class_entry AS
+$$
+    SELECT ce.* FROM class_entry ce
+                JOIN class_schedule cs on ce.id_class_schedule = cs.id
+                JOIN class c on c.id = cs.id_class
+    WHERE c.id=des_id;
+$$ LANGUAGE SQL;
+
+
+CREATE OR REPLACE FUNCTION get_client_gym_entries(client int) RETURNS setof gym_entry AS $$
+    SELECT * FROM gym_entry WHERE id_client = client;
+$$ LANGUAGE SQL;
+
+
+
+CREATE OR REPLACE FUNCTION get_client_gym_entries_d(client int, "from" date, "to" date) RETURNS bigint AS $$
+    SELECT count(*) FROM gym_entry WHERE id_client = client AND enter_time BETWEEN "from" AND "to";
 $$ LANGUAGE SQL;
 
 CREATE OR REPLACE FUNCTION get_gym_entries_d(gym int, "from" date, "to" date) RETURNS bigint AS $$
-    SELECT count(*) FROM entry WHERE gym = id_gym AND enter_time BETWEEN "from" AND "to";
+    SELECT count(*) FROM gym_entry WHERE gym = id_gym AND enter_time BETWEEN "from" AND "to";
 $$ LANGUAGE SQL;
+
+

@@ -9,7 +9,7 @@ INSERT INTO client (name, address, phone, email) VALUES ('Dymeg Bonham', 'Powsta
 INSERT INTO client (name, address, phone, email) VALUES ('Ozgar Skryg', 'Czemstochowska', '420420420', 'os@gmail.com');
 
 -- Pass
-INSERT INTO pass (name, price) VALUES ('Pompuj z pompą', 100);
+INSERT INTO pass (name, price)   VALUES ('Pompuj z pompą', 100);
 INSERT INTO pass (name, price) VALUES ('Open Beer Carnet', 200);
 
 -- Pass Gym

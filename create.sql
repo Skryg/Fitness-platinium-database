@@ -110,11 +110,13 @@ CREATE TABLE instructor (
 );
 
 CREATE TABLE default_employee_schedule (
+    id SERIAL,
     id_employee int NOT NULL,
     id_gym int NOT NULL,
     day_of_week int NOT NULL,
     start_time time NOT NULL,
     end_time time NOT NULL,
+    PRIMARY KEY (id),
     FOREIGN KEY (id_employee) REFERENCES employee(id),
     FOREIGN KEY (id_gym) REFERENCES gym(id),
     CONSTRAINT day_check CHECK(day_of_week BETWEEN 1 AND 7),
@@ -213,15 +215,12 @@ CREATE TABLE gym_entry (
 );
 
 CREATE TABLE class_entry (
-    id SERIAL,
-    enter_time timestamp NOT NULL,
-    exit_time timestamp NOT NULL,
     id_client int NOT NULL,
-    id_gym int NOT NULL,
-    PRIMARY KEY (id),
+    id_class_schedule int NOT NULL,
+    PRIMARY KEY (id_client, id_class_schedule),
+    UNIQUE (id_client, id_class_schedule),
     FOREIGN KEY (id_client) REFERENCES client(id),
-    FOREIGN KEY (id_gym) REFERENCES gym(id),
-    CONSTRAINT check_times CHECK (enter_time <= exit_time)
+    FOREIGN KEY (id_class_schedule) REFERENCES class_schedule(id)
 );
 
 CREATE TABLE challenge (
