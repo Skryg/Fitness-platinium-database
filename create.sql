@@ -1,8 +1,15 @@
+CREATE TABLE city (
+    id SERIAL,
+    name varchar(64),
+    PRIMARY KEY (id)
+);
+
 CREATE TABLE gym (
     id SERIAL,
-    city varchar(64) NOT NULL,
+    id_city int NOT NULL,
     address varchar(128) NOT NULL,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_city) REFERENCES city(id)
 );
 
 CREATE TABLE equipment_type (
@@ -36,9 +43,10 @@ CREATE TABLE pass_gym (
     UNIQUE (id_pass, id_gym)
 );
 
-CREATE TABLE client(
+CREATE TABLE person (
     id SERIAL,
     name varchar(32) NOT NULL,
+    surname varchar(32) NOT NULL,
     address varchar(128) NOT NULL,
     phone text UNIQUE,
     email varchar(64) UNIQUE,
@@ -48,6 +56,12 @@ CREATE TABLE client(
         phone ~ '^\+?[0-9]{1,3}-?[0-9]{3}-?[0-9]{3}-?[0-9]{4}$' OR
         phone ~ '^[0-9]{9}$'
     )
+);
+
+
+CREATE TABLE client(
+    id int UNIQUE NOT NULL ,
+    FOREIGN KEY (id) REFERENCES person(id)
 );
 
 
@@ -62,20 +76,9 @@ CREATE TABLE pass_client(
 );
 
 CREATE TABLE employee(
-    id SERIAL,
-    name varchar(32) NOT NULL,
-    surname  varchar(32) NOT NULL,
-    address varchar(128) NOT NULL,
-    phone text NOT NULL UNIQUE,
-    email varchar(320) NOT NULL UNIQUE,
-    PRIMARY KEY (id),
-    CONSTRAINT valid_email CHECK (email ~ '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'),
-    CONSTRAINT valid_phone_number CHECK (
-        phone ~ '^\+?[0-9]{1,3}-?[0-9]{3}-?[0-9]{3}-?[0-9]{4}$' OR
-        phone ~ '^[0-9]{9}$'
-    )
+    id int unique not null ,
+    foreign key (id) references person(id)
 );
-
 
 CREATE TABLE gym_employee (
     id_gym int,
@@ -144,10 +147,8 @@ CREATE TABLE class (
     name varchar(64) NOT NULL,
     description text,
     activity_type int NOT NULL,
-    instructor int NOT NULL,
     capacity int,
     PRIMARY KEY (id),
-    FOREIGN KEY (instructor) REFERENCES instructor(id_employee),
     FOREIGN KEY (gym) REFERENCES gym(id),
     FOREIGN KEY (activity_type) REFERENCES class_type(id),
     CONSTRAINT check_capacity CHECK (capacity > 0)
@@ -165,11 +166,13 @@ CREATE TABLE class_client (
 CREATE TABLE default_class_schedule (
     id SERIAL,
     id_class int NOT NULL,
+    instructor int NOT NULL,
     day_of_week int NOT NULL,
     start_time time NOT NULL,
     end_time time NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (id_class) REFERENCES class(id),
+    FOREIGN KEY (instructor) REFERENCES instructor(id_employee),
     CONSTRAINT day_check CHECK(day_of_week BETWEEN 1 AND 7),
     CONSTRAINT time_check CHECK(start_time < end_time)
 );
@@ -177,28 +180,42 @@ CREATE TABLE default_class_schedule (
 CREATE TABLE class_schedule (
     id SERIAL,
     id_class int NOT NULL,
+    instructor int NOT NULL,
     start_time time NOT NULL,
     end_time time NOT NULL,
     start_date date NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (id_class) REFERENCES class(id),
+    FOREIGN KEY (instructor) REFERENCES instructor(id_employee),
     CONSTRAINT check_times CHECK (start_time <= end_time)
 );
 
+--
+-- CREATE TABLE blacklist (
+--     id_client int UNIQUE NOT NULL,
+--     date_from date NOT NULL,
+--     date_to date NOT NULL,
+--     reason text NOT NULL,
+--     FOREIGN KEY (id_client) REFERENCES client(id),
+--     CONSTRAINT check_dates CHECK (date_from < date_to)
+-- );
 
-CREATE TABLE blacklist (
-    id_client int UNIQUE NOT NULL,
-    date_from date NOT NULL,
-    date_to date NOT NULL,
-    reason text NOT NULL,
-    FOREIGN KEY (id_client) REFERENCES client(id),
-    CONSTRAINT check_dates CHECK (date_from < date_to)
-);
-
-CREATE TABLE entry (
+CREATE TABLE gym_entry (
     id SERIAL,
     enter_time timestamp NOT NULL,
     exit_time timestamp NOT NULL, 
+    id_client int NOT NULL,
+    id_gym int NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_client) REFERENCES client(id),
+    FOREIGN KEY (id_gym) REFERENCES gym(id),
+    CONSTRAINT check_times CHECK (enter_time <= exit_time)
+);
+
+CREATE TABLE class_entry (
+    id SERIAL,
+    enter_time timestamp NOT NULL,
+    exit_time timestamp NOT NULL,
     id_client int NOT NULL,
     id_gym int NOT NULL,
     PRIMARY KEY (id),
