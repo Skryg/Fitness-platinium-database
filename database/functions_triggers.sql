@@ -176,15 +176,7 @@ $$
 $$ LANGUAGE SQL;
 
 
-CREATE OR REPLACE FUNCTION get_client_gym_entries(client int) RETURNS setof gym_entry AS $$
-    SELECT * FROM gym_entry WHERE id_client = client;
-$$ LANGUAGE SQL;
 
-
-
-CREATE OR REPLACE FUNCTION get_client_gym_entries_d(client int, "from" date, "to" date) RETURNS bigint AS $$
-    SELECT count(*) FROM gym_entry WHERE id_client = client AND enter_time BETWEEN "from" AND "to";
-$$ LANGUAGE SQL;
 
 CREATE OR REPLACE FUNCTION get_gym_entries_d(gym int, "from" date, "to" date) RETURNS bigint AS $$
     SELECT count(*) FROM gym_entry WHERE gym = id_gym AND enter_time BETWEEN "from" AND "to";
