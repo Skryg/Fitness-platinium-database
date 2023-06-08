@@ -6,4 +6,6 @@ psql < ./database/functions_triggers.sql
 psql < ./database/client_functions.sql
 psql < ./database/person_functions.sql
 psql < ./database/challenge_functions.sql
+psql < ./database/schedule_functions.sql
+psql < ./database/gym_functions.sql
 psql < ./database/insert.sql
