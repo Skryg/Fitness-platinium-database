@@ -35,7 +35,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-
+DROP FUNCTION IF EXISTS get_person_id(des_name varchar(64));
 CREATE FUNCTION get_person_id(des_name varchar(64))
 RETURNS int AS $$
 DECLARE
