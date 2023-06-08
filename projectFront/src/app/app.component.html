@@ -1,9 +1,15 @@
-<nav>
-  <a routerLink="/clients">Clients</a>
-  <a routerLink="/add-client">Add client</a>
-  <a routerLink="/find-client">Find client</a>
-  <a routerLink="/equipment">equipment</a>
-</nav>
-
-<h1>Baza</h1>
-<router-outlet></router-outlet>
+<div class="container">
+  <ul class="nav nav-pills">
+    <li><a routerLinkActive="active" routerLink="/home">Home</a></li>
+    <li><a routerLinkActive="active" routerLink="/login">Login</a></li>
+    <!-- <li><a (click)="logout()">Logout</a></li> -->
+    <li><a routerLink="/clients">Clients</a></li>
+    <li><a routerLink="/add-client">Add client</a></li>
+    <li><a routerLink="/find-client">Find client</a></li>
+    <li><a routerLink="/equipment">equipment</a></li>
+  </ul>
+  <h1>Baza</h1>
+</div>
+<div class="container">
+  <router-outlet></router-outlet>
+</div>
