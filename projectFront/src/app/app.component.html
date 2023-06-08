@@ -1,15 +1,53 @@
-<div class="container">
+<!-- <div class="container">
   <ul class="nav nav-pills">
-    <li><a routerLinkActive="active" routerLink="/home">Home</a></li>
+    <li class="active"><a routerLinkActive="active" routerLink="/home">Home</a></li>
     <li><a routerLinkActive="active" routerLink="/login">Login</a></li>
-    <!-- <li><a (click)="logout()">Logout</a></li> -->
-    <li><a routerLink="/clients">Clients</a></li>
-    <li><a routerLink="/add-client">Add client</a></li>
-    <li><a routerLink="/find-client">Find client</a></li>
-    <li><a routerLink="/equipment">equipment</a></li>
+     <li><a (click)="logout()">Logout</a></li> 
+    <li></li>
+    
+    <li></li>
+    <li></li>
   </ul>
   <h1>Baza</h1>
 </div>
+ -->
+
+<nav class="navbar navbar-expand-sm navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <h1>Gym Baza</h1>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/clients">Clients</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/add-client">Add client</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/find-client">Find client</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/equipment">Equipment</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/login">Login</a>
+        </li>
+        
+        <!-- <li class="nav-item"><a class="nav-link" (click)="logout()">Logout</a></li>  -->
+      </ul>
+    </div>
+  </div>
+</nav>
 <div class="container">
   <router-outlet></router-outlet>
 </div>
