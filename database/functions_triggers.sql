@@ -65,7 +65,7 @@ BEGIN
     IF EXISTS (
         SELECT 1
         FROM default_class_schedule
-        WHERE id_class = NEW.id_class
+        WHERE instructor = NEW.instructor
         AND day_of_week = NEW.day_of_week
         AND (start_time, end_time) OVERLAPS (NEW.start_time, NEW.end_time)
     ) THEN
@@ -88,7 +88,7 @@ BEGIN
     IF EXISTS (
         SELECT 1
         FROM class_schedule 
-        WHERE id_class = NEW.id_class
+        WHERE instructor = NEW.instructor
         AND start_date = NEW.start_date
         AND (start_time, end_time) OVERLAPS (NEW.start_time, NEW.end_time)
     ) THEN

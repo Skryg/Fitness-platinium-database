@@ -96,3 +96,18 @@ INSERT INTO class_client (id_class, id_client) VALUES (1, 2);
 -- Class Schedule
 INSERT INTO class_schedule (id_class, instructor, start_time, end_time, start_date) VALUES (1, 3, '10:00:00', '11:00:00', '2019-02-03');
 INSERT INTO class_schedule (id_class, instructor, start_time, end_time, start_date) VALUES (2, 4, '12:00:00', '13:00:00', '2019-01-03');
+
+
+INSERT INTO default_employee_schedule (id_employee, id_gym, day_of_week, start_time, end_time)
+VALUES
+(4, 1, 1, '09:00:00', '10:00:00'),
+(3, 1, 2, '14:00:00', '15:30:00'),
+(3, 2, 3, '18:00:00', '19:30:00');
+
+
+INSERT INTO default_class_schedule (id_class, instructor, day_of_week, start_time, end_time)
+VALUES
+(1, 3, 1, '09:00:00', '10:00:00'),
+(2, 3, 2, '14:00:00', '15:30:00'),
+(3, 4, 3, '18:00:00', '19:30:00');
+

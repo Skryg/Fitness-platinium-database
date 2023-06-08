@@ -35,3 +35,25 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+
+CREATE FUNCTION get_person_id(des_name varchar(64))
+RETURNS int AS $$
+DECLARE
+    person_count int;
+    person_id int;
+BEGIN
+    SELECT COUNT(*) INTO person_count
+    FROM get_person_by_name(des_name);
+
+    IF person_count = 0 THEN
+        RAISE EXCEPTION 'No matches.';
+    ELSIF person_count > 1 THEN
+        RAISE EXCEPTION 'More than one match.';
+    END IF;
+
+    SELECT id INTO person_id
+    FROM get_person_by_name(des_name);
+
+    RETURN person_id;
+END;
+$$ LANGUAGE plpgsql;

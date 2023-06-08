@@ -42,6 +42,7 @@ CREATE TABLE pass_gym (
     id_gym int NOT NULL,
     FOREIGN KEY (id_pass) REFERENCES pass(id),
     FOREIGN KEY (id_gym) REFERENCES gym(id),
+    FOREIGN KEY (id_gym) REFERENCES gym(id),
     UNIQUE (id_pass, id_gym)
 );
 
@@ -120,6 +121,7 @@ CREATE TABLE default_employee_schedule (
     end_time time NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (id_employee) REFERENCES employee(id),
+    FOREIGN KEY (id_gym) REFERENCES gym(id),
     FOREIGN KEY (id_gym) REFERENCES gym(id),
     CONSTRAINT day_check CHECK(day_of_week BETWEEN 1 AND 7),
     CONSTRAINT time_check CHECK(start_time < end_time)
