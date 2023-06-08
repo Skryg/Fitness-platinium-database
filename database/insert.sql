@@ -109,5 +109,7 @@ INSERT INTO default_class_schedule (id_class, instructor, day_of_week, start_tim
 VALUES
 (1, 3, 1, '09:00:00', '10:00:00'),
 (2, 3, 2, '14:00:00', '15:30:00'),
-(3, 4, 3, '18:00:00', '19:30:00');
+(2, 4, 2, '18:00:00', '19:30:00');
+
+
 

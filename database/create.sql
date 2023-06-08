@@ -252,3 +252,10 @@ CREATE TABLE challenge_award (
     FOREIGN KEY (id_award) REFERENCES award(id),
     PRIMARY KEY (id_challenge, id_award)
 );
+
+CREATE TABLE challenge_client_completed (
+    id_challenge int NOT NULL REFERENCES challenge(id),
+    id_client int NOT NULL REFERENCES client(id),
+    got_award bool NOT NULL,
+    unique (id_challenge, id_client)
+);

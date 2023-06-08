@@ -176,6 +176,30 @@ $$
 $$ LANGUAGE SQL;
 
 
+CREATE OR REPLACE FUNCTION check_gym_entry_overlap()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF EXISTS (
+        SELECT 1
+        FROM gym_entry
+        WHERE id_client = NEW.id_client
+          AND id_gym = NEW.id_gym
+          AND enter_time < NEW.exit_time
+          AND exit_time > NEW.enter_time
+    ) THEN
+        RAISE EXCEPTION 'Entry overlaps with an existing entry.';
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER gym_entry_overlap_trigger
+BEFORE INSERT OR UPDATE ON gym_entry
+FOR EACH ROW
+EXECUTE FUNCTION check_gym_entry_overlap();
+
+
 
 
 CREATE OR REPLACE FUNCTION get_gym_entries_d(gym int, "from" date, "to" date) RETURNS bigint AS $$
