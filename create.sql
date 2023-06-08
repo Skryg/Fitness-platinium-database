@@ -1,7 +1,8 @@
 CREATE TABLE city (
     id SERIAL,
     name varchar(64),
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    UNIQUE (name)
 );
 
 CREATE TABLE gym (
@@ -31,6 +32,7 @@ CREATE TABLE pass (
     id SERIAL,
     name varchar(64) NOT NULL,
     price numeric(6, 2) NOT NULL,
+    duration interval NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT price_check CHECK (price>=0)
 );
@@ -69,7 +71,7 @@ CREATE TABLE pass_client(
     id_pass int NOT NULL,
     id_client int NOT NULL,
     date_from date NOT NULL,
-    date_to date NOT NULL,
+    --date_to date NOT NULL,
     PRIMARY KEY (id_pass, id_client),
     FOREIGN KEY (id_pass) REFERENCES pass(id),
     FOREIGN KEY (id_client) REFERENCES client(id)
