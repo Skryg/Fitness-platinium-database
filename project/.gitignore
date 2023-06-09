@@ -1,3 +1,5 @@
 application.properties
 mike.mp4
 mike.webm
+.idea/
+target/

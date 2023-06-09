@@ -9,6 +9,10 @@ import { AddClientComponent } from './add-client/add-client.component';
 import { FormsModule } from '@angular/forms';
 import { FindClientComponent } from './find-client/find-client.component';
 import { EquipmentComponent } from './equipment/equipment.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LoginComponent } from './login/login.component';
+import { HomeComponent } from './home/home.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -16,13 +20,17 @@ import { EquipmentComponent } from './equipment/equipment.component';
     ClientListComponent,
     AddClientComponent,
     FindClientComponent,
-    EquipmentComponent
+    EquipmentComponent,
+    LoginComponent,
+    HomeComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]
