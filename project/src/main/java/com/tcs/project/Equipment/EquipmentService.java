@@ -7,11 +7,11 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Service
-public class EquipmentSrevice{
+public class EquipmentService {
     private final EquipmentRepository equipmentRepository;
 
     @Autowired
-    public EquipmentSrevice(EquipmentRepository equipmentRepository) {
+    public EquipmentService(EquipmentRepository equipmentRepository) {
         this.equipmentRepository = equipmentRepository;
     }
 
