@@ -12,7 +12,7 @@ import { EquipmentComponent } from './equipment/equipment.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
-import { AppService } from './app.service';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +22,8 @@ import { AppService } from './app.service';
     FindClientComponent,
     EquipmentComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +32,7 @@ import { AppService } from './app.service';
     FormsModule,
     NgbModule
   ],
-  providers: [AppService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

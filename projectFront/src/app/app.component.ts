@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AppService } from './app.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { finalize } from "rxjs/operators";
@@ -12,17 +11,10 @@ import { finalize } from "rxjs/operators";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  constructor(private modalService: NgbModal, private app: AppService, private http: HttpClient, private router: Router) {
-    this.app.authenticate(undefined, undefined);
+  title = 'Baza';
 
-  }
+  constructor(private modalService: NgbModal, private http: HttpClient, private router: Router) {
 
-  logout() {
-    this.http.post('logout', {}).pipe(
-      finalize(() => {
-        this.app.authenticated = false;
-        this.router.navigateByUrl('/login');
-    })).subscribe();
   }
 
   public open(modal: any): void {

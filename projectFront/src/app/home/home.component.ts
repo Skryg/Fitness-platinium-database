@@ -11,8 +11,8 @@ export class HomeComponent {
   title = 'Baza';
   // greeting = { id: '', content: ''};
   
-  constructor(private app: AppService, private http: HttpClient) {
+  constructor(private http: HttpClient) {
     // http.get('resource').subscribe((data: {}) => this.greeting = data);
   }
-  authenticated() { return this.app.authenticated; }
+  
 }
