@@ -12,6 +12,7 @@ import lombok.Setter;
 public class EmployeeUser {
     @Id
     @Column(name = "id", length = 45)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
     private int id;
 
