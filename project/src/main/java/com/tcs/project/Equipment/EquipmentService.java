@@ -15,8 +15,12 @@ public class EquipmentService {
         this.equipmentRepository = equipmentRepository;
     }
 
-    public List<Object[]> getEquipmentByGym(Long id, LocalDate date1, LocalDate date2) {
-        return equipmentRepository.getEquipmentByGym(id, date1, date2);
+    public List<Object[]> getEquipmentByGym(LocalDate date1, LocalDate date2) {
+        return equipmentRepository.getEquipmentByGym(date1, date2);
+    }
+
+    public void updateEquipmentByGym(LocalDate date1, LocalDate date2) {
+        equipmentRepository.updateEquipmentByGym(date1, date2);
     }
 
 }

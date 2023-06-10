@@ -12,6 +12,8 @@ import { finalize } from "rxjs/operators";
 })
 export class AppComponent {
   title = 'Baza';
+  selectedOption: string = '1';
+  public static gymId: number = 0;
 
   constructor(private modalService: NgbModal, private http: HttpClient, private router: Router) {
 
@@ -19,5 +21,9 @@ export class AppComponent {
 
   public open(modal: any): void {
     this.modalService.open(modal);
+  }
+
+  public updateGymId() : void {
+    AppComponent.gymId = parseInt(this.selectedOption);
   }
 }

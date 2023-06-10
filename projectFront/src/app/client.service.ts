@@ -35,4 +35,9 @@ export class ClientService {
     return this.httpClient.get<Client[]>(`${this.baseURL}/gym/${id}`);
   }
 
+  public getEntriesByGym(id: number): Observable<Object> {
+    return this.httpClient.get(`${this.baseURL}/entries/gym/${id}`);
+  }
+
+
 }

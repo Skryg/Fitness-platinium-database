@@ -11,10 +11,13 @@ import java.util.List;
 
 @Repository
 public interface EquipmentRepository extends JpaRepository<Equipment, Long>{
-    @Query(value = "SELECT e.id, et.name, ge.service_date FROM equipment e" +
-            " JOIN equipment_type et ON e.id_type = et.id" +
-            " JOIN gym_equipment ge ON e.id = ge.equipment_id" +
-            " WHERE ge.gym_id = :id AND ge.service_date >= :date1 AND ge.service_date <= :date2", nativeQuery = true)
-    List<Object[]> getEquipmentByGym(@Param("id") Long id, @Param("date1") LocalDate date1, @Param("date2") LocalDate date2);
+    @Query(value = "SELECT e.service_date, et.name FROM gym_equipment e" +
+            " JOIN equipment_type et ON id = id_equipment_type WHERE" +
+            " e.service_date BETWEEN :date1 AND :date2", nativeQuery = true)
+    List<Object[]> getEquipmentByGym(@Param("date1") LocalDate date1, @Param("date2") LocalDate date2);
 
+    // update service to current date
+    @Query(value = "UPDATE gym_equipment SET service_date = current_date WHERE" +
+            " gym_equipment.service_date BETWEEN :date1 AND :date2", nativeQuery = true)
+    void updateEquipmentByGym(@Param("date1") LocalDate date1, @Param("date2") LocalDate date2);
 }
