@@ -13,16 +13,18 @@ public class Client {
     private String address;
     private String email;
     private String name;
+    private String surname;
     private String phone;
 
     public Client() {
     }
 
-    public Client(String address, String email, String name, String phone) {
+    public Client(String address, String email, String name, String surname, String phone) {
         this.address = address;
         this.email = email;
         this.name = name;
         this.phone = phone;
+        this.surname = surname;
     }
 
     public Long getId() {
@@ -63,6 +65,14 @@ public class Client {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
 

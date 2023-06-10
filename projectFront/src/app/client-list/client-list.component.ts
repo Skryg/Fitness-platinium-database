@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Client } from '../client';
 import { ClientService } from '../service/client.service';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-client-list',
@@ -10,6 +11,7 @@ import { ClientService } from '../service/client.service';
 export class ClientListComponent implements OnInit {
   clients: Client[] = [];
   id: number = 0;
+  entries: Array<string> = [];
 
   constructor(private clientService: ClientService) { }
 
@@ -22,11 +24,34 @@ export class ClientListComponent implements OnInit {
       .subscribe(clients => this.clients = clients);
   }
 
+  s: string = '';
   onSubmit() {
-    this.clientService.getClientsbyGym(this.id)
-    .subscribe(clients => this.clients = clients);
-  }
+    this.entries = [];
+    this.clientService.getEntriesByGym(AppComponent.gymId).subscribe(data => {
+      this.s = data.toString();
+      console.log(this.s);
+    }
+    , error => console.log(error));
+    
+    this.format();
 
+  }
+  format() : void {
+    let cnt  = 0;
+    let tmp = '';
+    for(let i = 0; i < this.s.length; i++) {
+      if(this.s[i] == ',')
+        cnt++;
+      tmp+= this.s[i];
+      if(cnt == 3){
+        cnt = 0;
+        this.entries.push(tmp);
+        console.log(tmp);
+        tmp = '  ';
+      }
+    }
+    this.entries.push(tmp);
+  }
 
 
 

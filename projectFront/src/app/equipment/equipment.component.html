@@ -1,13 +1,13 @@
 <form (ngSubmit)="onSubmit()">
-    <label for="name">Enter Gym id</label>
-    <input type="int" id="id" [(ngModel)] = "id" name = "id">
     <label for="name">Enter Erliest Service Date</label>
     <input type="date" id="date" [(ngModel)] = "date1" name = "date">
     <label for="name">Enter Latest Service Date</label>
     <input type="date" id="date" [(ngModel)] = "date2" name = "date2">
     <button type="submit">Submit</button>
 </form>
+<button (click)="update()">Update</button>
 
 <p>
     {{equipment}}
 </p>
+

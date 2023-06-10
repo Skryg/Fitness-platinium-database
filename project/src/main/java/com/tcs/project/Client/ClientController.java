@@ -32,6 +32,7 @@ public class ClientController {
     @PostMapping
     public void addNewClient(@RequestBody Client client) {
         clientService.addNewClient(client);
+
     }
 
     @GetMapping("/entries/{id}")
@@ -43,6 +44,11 @@ public class ClientController {
     @GetMapping("/gym/{id}")
     public List<Client> getClientsByGym(@PathVariable Long id) {
         return clientService.getClientsByGym(id);
+    }
+
+    @GetMapping("/entries/gym/{id}")
+    public List<Object[]> getEntriesByGym(@PathVariable Long id) {
+        return clientService.getEntriesByGym(id);
     }
 
 

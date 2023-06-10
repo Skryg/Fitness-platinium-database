@@ -42,6 +42,14 @@
         </li>
       </ul>
       <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+
+        <select [(ngModel)]="selectedOption"  (change)="updateGymId()">
+          <option value="1">Bratysławska 3, id: 1</option>
+          <option value="2">Aleja Pokoju 16, id: 2</option>
+        </select>
+        
+        
+
         <li class="nav-item">
           <a class="nav-link" routerLink="/login" *ngIf="!hasToken()">Login</a>
         </li>

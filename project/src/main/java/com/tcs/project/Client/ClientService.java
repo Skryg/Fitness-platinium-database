@@ -18,24 +18,21 @@ public class ClientService {
     }
 
     public List<Client> getClients() {
-        return clientRepository.findAll();
+        return clientRepository.getClients();
     }
 
     public Client getClient(Long id) {
-        return clientRepository.findById(id).orElseThrow(
-                () -> new IllegalStateException("Client with id " + id + " does not exists"));
+        return clientRepository.getClient(id);
     }
 
     public void addNewClient(Client client) {
-        clientRepository.save(client);
+        clientRepository.addNewClient(client.getName(), client.getSurname(), client.getAddress(), client.getPhone(), client.getEmail());
     }
 
     public void deleteClient(Long id) {
-        boolean exists = clientRepository.existsById(id);
-        if (!exists) {
-            throw new IllegalStateException("Client with id " + id + " does not exists");
-        }
-        clientRepository.deleteById(id);
+        clientRepository.deleteGymEntryByClientId(id);
+        clientRepository.deleteClientById(id);
+        clientRepository.deletePersonById(id);
     }
 
     public List<Object[]> getEntriesByClient(Long id) {
@@ -45,5 +42,12 @@ public class ClientService {
     public List<Client> getClientsByGym(Long id) {
         return clientRepository.getClientsByGym(id);
     }
+
+    public List<Object[]> getEntriesByGym(Long id) {
+        return clientRepository.getEntriesByGym(id);
+    }
+
+
+
 
 }

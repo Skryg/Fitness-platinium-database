@@ -16,16 +16,26 @@ import { PermissionService } from './service/permission.service';
 })
 export class AppComponent {
   title = 'Baza';
+<<<<<<< HEAD
   perm = 0;
   constructor(private modalService: NgbModal,
       private http: HttpClient, private router: Router,
       public loginService: LoginService, 
       private permissionService: PermissionService) {}
+=======
+  selectedOption: string = '1';
+  public static gymId: number = 0;
+
+  constructor(private modalService: NgbModal, private http: HttpClient, private router: Router) {
+
+  }
+>>>>>>> 7a43a7b19a9486dda02210eeb786a49c9a0f1279
 
   public open(modal: any): void {
     this.modalService.open(modal);
   }
 
+<<<<<<< HEAD
   public hasToken(){
     return sessionStorage.getItem('token') != null;
   }
@@ -44,4 +54,9 @@ export class AppComponent {
   }
 
   
+=======
+  public updateGymId() : void {
+    AppComponent.gymId = parseInt(this.selectedOption);
+  }
+>>>>>>> 7a43a7b19a9486dda02210eeb786a49c9a0f1279
 }
