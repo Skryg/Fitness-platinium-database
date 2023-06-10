@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ClientService } from '../client.service';
-import { EquipmentService } from '../equipment.service';
+import { ClientService } from '../service/client.service';
+import { EquipmentService } from '../service/equipment.service';
 
 @Component({
   selector: 'app-equipment',
