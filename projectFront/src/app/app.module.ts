@@ -15,6 +15,7 @@ import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth.interceptor';
+import { ChallengesComponent } from './challenges/challenges.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { AuthInterceptor } from './auth.interceptor';
     EquipmentComponent,
     LoginComponent,
     HomeComponent,
-    RegisterComponent
+    RegisterComponent,
+    ChallengesComponent
   ],
   imports: [
     BrowserModule,

@@ -51,5 +51,10 @@ public class ClientController {
         return clientService.getEntriesByGym(id);
     }
 
+    @GetMapping("challenge")
+    public List<Object[]> getChallenges() {
+        return clientService.getChallenges();
+    }
+
 
 }

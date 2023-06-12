@@ -8,6 +8,7 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
 import { authenticationGuard } from './authentication.guard';
+import { ChallengesComponent } from './challenges/challenges.component';
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: 'home'},
@@ -18,6 +19,7 @@ const routes: Routes = [
   {path: 'add-client', component: AddClientComponent, canActivate: [authenticationGuard]},
   {path: 'find-client', component: FindClientComponent, canActivate: [authenticationGuard]},
   {path: 'equipment', component: EquipmentComponent, canActivate: [authenticationGuard]},
+  {path: 'challenges', component: ChallengesComponent, canActivate: [authenticationGuard]},
   {path: '**', redirectTo: 'home'}
 ];
 

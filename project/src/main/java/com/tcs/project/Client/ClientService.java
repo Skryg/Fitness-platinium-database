@@ -30,9 +30,21 @@ public class ClientService {
     }
 
     public void deleteClient(Long id) {
-        clientRepository.deleteGymEntryByClientId(id);
-        clientRepository.deleteClientById(id);
-        clientRepository.deletePersonById(id);
+        try {
+            clientRepository.deleteGymEntryByClientId(id);
+        } catch (Exception e) {
+            System.out.println("No gym entries to delete");
+        }
+        try{
+            clientRepository.deleteClientById(id);
+        } catch (Exception e) {
+            System.out.println("No equipment entries to delete");
+        }
+        try{
+            clientRepository.deletePersonById(id);
+        } catch (Exception e) {
+            System.out.println("No equipment entries to delete");
+        }
     }
 
     public List<Object[]> getEntriesByClient(Long id) {
@@ -47,7 +59,7 @@ public class ClientService {
         return clientRepository.getEntriesByGym(id);
     }
 
-
-
-
+    public List<Object[]> getChallenges() {
+        return clientRepository.getChallenges();
+    }
 }

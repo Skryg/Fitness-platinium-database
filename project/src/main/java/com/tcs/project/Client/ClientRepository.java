@@ -35,15 +35,18 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     void addNewClient(@Param("name") String name, @Param("surname") String surname, @Param("address") String address, @Param("phone") String phone, @Param("email") String email);
 
     // delete client
-    @Modifying
     @Query(value = "DELETE FROM gym_entry WHERE id_client = :id", nativeQuery = true)
     void deleteGymEntryByClientId(@Param("id") Long id);
 
-    @Modifying
     @Query(value = "DELETE FROM client WHERE id = :id", nativeQuery = true)
     void deleteClientById(@Param("id") Long id);
 
-    @Modifying
     @Query(value = "DELETE FROM person WHERE id = :id", nativeQuery = true)
     void deletePersonById(@Param("id") Long id);
+
+    @Query(value = "SELECT date_from, date_to, min_entries, a.name FROM challenge " +
+            " JOIN challenge_award ON challenge.id = challenge_award.id_challenge" +
+            " JOIN award a on challenge_award.id_award = a.id", nativeQuery = true)
+    List<Object[]> getChallenges();
+
 }

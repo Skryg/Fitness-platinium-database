@@ -39,5 +39,9 @@ export class ClientService {
     return this.httpClient.get(`${this.baseURL}/entries/gym/${id}`);
   }
 
+  public getChallenges() : Observable<Object> {
+    return this.httpClient.get(`${this.baseURL}/challenge`);
+  }
+
 
 }
