@@ -17,3 +17,13 @@
         <td>{{rewards[from.indexOf(f)]}}</td>
     </tr>
   </tbody>
+</table>
+<div>
+  
+<form (ngSubmit)="giveAwards()">
+  <input type="int" name="idAward" [(ngModel)]="idAward" placeholder="idAward">
+  <button type="submit">Give Awards</button>
+
+</form>
+{{ message }}
+</div>

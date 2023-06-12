@@ -5,6 +5,13 @@
     <input type="int" id="id" [(ngModel)] = "id" name = "id">
     <button type="submit">Submit</button>
 </form>
+<form (ngSubmit) = "byName()">
+    <label for="name">Get Person By Name</label>
+    <input type="text" id="name" [(ngModel)] = "name" name = "name">
+    <button type="submit">Submit</button>
+</form>
+{{ canEnter }}
+
 <p *ngIf="clientShow">{{
     client.id + " " +
     client.address + " " +
@@ -17,5 +24,10 @@
 <ng-container *ngIf="entriesShow">
     <p *ngFor="let entry of formatEntries(entries)">{{ entry }}</p>
   </ng-container>
+
+<ng-container *ngIf="delButton">
+    <button (click) = "Enter()"> Enter</button>
+    <button (click) = "Exit()"> Exit</button>
+</ng-container>
   
   

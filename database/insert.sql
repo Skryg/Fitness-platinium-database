@@ -30,11 +30,15 @@ INSERT INTO pass_client (id_pass, id_client, date_from)
 VALUES (1, 1, '2023-05-22');
 INSERT INTO pass_client (id_pass, id_client, date_from)
 VALUES (2, 2, '2023-05-22');
+INSERT INTO pass_client (id_pass, id_client, date_from)
+VALUES (1, 1, '2019-01-01');
+INSERT INTO pass_client (id_pass, id_client, date_from)
+VALUES (2, 2, '2019-01-01');
 
 -- Entry
-INSERT INTO gym_entry (enter_time, exit_time, id_gym, id_client) VALUES ('2019-01-01 10:00:00', '2019-01-01 11:00:00', 1, 1);
-INSERT INTO gym_entry (enter_time, exit_time, id_gym, id_client) VALUES ('2019-01-03 12:00:00', '2019-01-03 13:00:00', 1, 1);
-INSERT INTO gym_entry (enter_time, exit_time, id_gym, id_client) VALUES ('2019-01-04 11:00:00', '2019-01-04 12:00:00', 2, 2);
+INSERT INTO gym_entry (enter_time, exit_time, id_gym, id_client) VALUES ('2019-01-02 10:00:00', '2019-01-02 11:00:00', 1, 2);
+INSERT INTO gym_entry (enter_time, exit_time, id_gym, id_client) VALUES ('2019-01-03 12:00:00', '2019-01-03 13:00:00', 1, 2);
+INSERT INTO gym_entry (enter_time, exit_time, id_gym, id_client) VALUES ('2019-01-04 11:00:00', '2019-01-04 12:00:00', 2, 1);
 INSERT INTO gym_entry (enter_time, exit_time, id_gym, id_client) VALUES ('2019-01-05 20:00:00', '2019-01-05 22:00:00', 2, 2);
 
 -- Equipment Type
@@ -80,12 +84,21 @@ INSERT INTO challenge_award (id_challenge, id_award) VALUES (1, 1);
 INSERT INTO challenge_award (id_challenge, id_award) VALUES (2, 2);
 
 -- Class Type
-INSERT INTO class_type (name) VALUES ('Yoga');
-INSERT INTO class_type (name) VALUES ('Zumba');
+INSERT INTO class_type (name) VALUES
+('Yoga'),
+('Zumba'),
+('Pilates'),
+('Kickboxing');
 
 -- Class
 INSERT INTO class (gym, name, description, activity_type, capacity) VALUES (1, 'Yoga', 'Yoga for beginners', 1, 10);
 INSERT INTO class (gym, name, description, activity_type, capacity) VALUES (2, 'Zumba', 'Zumba for beginners', 2, 10);
+INSERT INTO class (gym, name, description, activity_type, capacity)
+VALUES
+(1, 'Advanced Pilates', 'Core strengthening and flexibility', 3, 8),
+(2, 'Kickboxing beginners', 'High-intensity martial arts workout for beginners', 4, 15),
+(2, 'Kickboxing', 'High-intensity martial arts workout', 4, 12);
+
 
 -- Class Client
 INSERT INTO class_client (id_class, id_client) VALUES (1, 1);
@@ -93,23 +106,27 @@ INSERT INTO class_client (id_class, id_client) VALUES (2, 2);
 INSERT INTO class_client (id_class, id_client) VALUES (2, 1);
 INSERT INTO class_client (id_class, id_client) VALUES (1, 2);
 
--- Class Schedule
-INSERT INTO class_schedule (id_class, instructor, start_time, end_time, start_date) VALUES (1, 3, '10:00:00', '11:00:00', '2019-02-03');
-INSERT INTO class_schedule (id_class, instructor, start_time, end_time, start_date) VALUES (2, 4, '12:00:00', '13:00:00', '2019-01-03');
-
 
 INSERT INTO default_employee_schedule (id_employee, id_gym, day_of_week, start_time, end_time)
 VALUES
 (4, 1, 1, '09:00:00', '10:00:00'),
 (3, 1, 2, '14:00:00', '15:30:00'),
-(3, 2, 3, '18:00:00', '19:30:00');
+(3, 2, 3, '18:00:00', '19:30:00'),
+(4, 2, 4, '16:00:00', '17:30:00'),
+(3, 1, 5, '10:00:00', '11:30:00');;
 
 
 INSERT INTO default_class_schedule (id_class, instructor, day_of_week, start_time, end_time)
 VALUES
 (1, 3, 1, '09:00:00', '10:00:00'),
 (2, 3, 2, '14:00:00', '15:30:00'),
-(2, 4, 2, '18:00:00', '19:30:00');
+(2, 4, 2, '18:00:00', '19:30:00'),
+(3, 3, 3, '15:00:00', '16:30:00'),
+(4, 3, 4, '11:00:00', '12:30:00');
 
+select generate_employee_schedule_for_next_week();
+select generate_class_schedule_for_next_week();
 
+select generate_class_schedule(current_date, '2023-08-01');
 
+select delete_classes_for_gym(2, current_timestamp::timestamp, '2023-07-01 15:00:00'::timestamp);

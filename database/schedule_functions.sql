@@ -123,26 +123,26 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-DROP FUNCTION IF EXISTS delete_classes_for_instructor(des_instructor int, des_start_time time, des_end_time time);
+DROP FUNCTION IF EXISTS delete_classes_for_instructor(des_instructor int, des_start_time timestamp, des_end_time timestamp);
 CREATE OR REPLACE FUNCTION delete_classes_for_instructor(
     des_instructor int,
-    des_start_time time,
-    des_end_time time
+    des_start_time timestamp,
+    des_end_time timestamp
 )
 RETURNS void AS $$
 BEGIN
     DELETE FROM class_schedule
     WHERE instructor = des_instructor
-        AND start_time >= des_start_time
-        AND end_time <= des_end_time;
+        AND (start_date || ' ' || start_time)::timestamp >= des_start_time
+        AND (start_date || ' ' || end_time)::timestamp <= des_end_time;
 END;
 $$ LANGUAGE plpgsql;
 
-DROP FUNCTION IF EXISTS delete_classes_for_gym(des_gym int, des_start_time time, des_end_time time);
+DROP FUNCTION IF EXISTS delete_classes_for_gym(des_gym int, des_start_time timestamp, des_end_time timestamp);
 CREATE OR REPLACE FUNCTION delete_classes_for_gym(
     des_gym int,
-    des_start_time time,
-    des_end_time time
+    des_start_time timestamp,
+    des_end_time timestamp
 )
 RETURNS void AS $$
 BEGIN
@@ -152,38 +152,38 @@ BEGIN
         FROM class
         WHERE gym = des_gym
     )
-    AND start_time >= des_start_time
-    AND end_time <= des_end_time;
+    AND (start_date || ' ' || start_time)::timestamp >= des_start_time
+    AND (start_date || ' ' || end_time)::timestamp <= des_end_time;
 END;
 $$ LANGUAGE plpgsql;
 
-DROP FUNCTION IF EXISTS delete_employee_sch_for_gym(des_gym int, des_start_time time, des_end_time time);
+DROP FUNCTION IF EXISTS delete_employee_sch_for_gym(des_gym int, des_start_time timestamp, des_end_time timestamp);
 CREATE OR REPLACE FUNCTION delete_employee_sch_for_gym(
     des_gym int,
-    des_start_time time,
-    des_end_time time
+    des_start_time timestamp,
+    des_end_time timestamp
 )
 RETURNS void AS $$
 BEGIN
     DELETE FROM employee_schedule
     WHERE id_gym = des_gym
-    AND start_time >= des_start_time
-    AND end_time <= des_end_time;
+    AND (start_date || ' ' || start_time)::timestamp >= des_start_time
+    AND (start_date || ' ' || end_time)::timestamp <= des_end_time;
 END;
 $$ LANGUAGE plpgsql;
 
-DROP FUNCTION IF EXISTS delete_employee_sch_for_emp(des_emp int, des_start_time time, des_end_time time);
+DROP FUNCTION IF EXISTS delete_employee_sch_for_emp(des_emp int, des_start_time timestamp, des_end_time timestamp);
 CREATE OR REPLACE FUNCTION delete_employee_sch_for_emp(
     des_emp int,
-    des_start_time time,
-    des_end_time time
+    des_start_time timestamp,
+    des_end_time timestamp
 )
 RETURNS void AS $$
 BEGIN
     DELETE FROM employee_schedule
     WHERE id_employee = des_emp
-    AND start_time >= des_start_time
-    AND end_time <= des_end_time;
+    AND (start_date || ' ' || start_time)::timestamp >= des_start_time
+    AND (start_date || ' ' || end_time)::timestamp <= des_end_time;
 END;
 $$ LANGUAGE plpgsql;
 

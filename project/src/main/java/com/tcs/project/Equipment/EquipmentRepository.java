@@ -17,7 +17,7 @@ public interface EquipmentRepository extends JpaRepository<Equipment, Long>{
     List<Object[]> getEquipmentByGym(@Param("date1") LocalDate date1, @Param("date2") LocalDate date2);
 
     // update service to current date
-    @Query(value = "UPDATE gym_equipment SET service_date = current_date WHERE" +
+    @Query(value = "UPDATE gym_equipment SET service_date = current_date + INTERVAL '6 months' WHERE" +
             " gym_equipment.service_date BETWEEN :date1 AND :date2", nativeQuery = true)
     void updateEquipmentByGym(@Param("date1") LocalDate date1, @Param("date2") LocalDate date2);
 }

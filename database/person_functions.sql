@@ -23,6 +23,25 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP FUNCTION IF EXISTS get_person_by_name(des_name character varying);
+CREATE FUNCTION get_person_by_name(des_name character varying)
+RETURNS SETOF person AS $$
+DECLARE
+    des_first_name varchar(32);
+    des_last_name varchar(32);
+BEGIN
+    des_first_name := TRIM(SPLIT_PART(des_name, ' ', 1));
+    des_last_name := TRIM(SPLIT_PART(des_name, ' ', 2));
+
+    RETURN QUERY
+    SELECT *
+    FROM person
+    WHERE (LOWER(name) LIKE LOWER(des_first_name || '%') AND LOWER(surname) LIKE LOWER(des_last_name || '%'))
+        OR (LOWER(surname) LIKE LOWER(des_first_name || '%') AND LOWER(name) LIKE LOWER(des_last_name || '%'));
+END;
+$$ LANGUAGE plpgsql;
+
+
 
 DROP FUNCTION IF EXISTS get_person_by_name_exact(des_name varchar(32), des_surname varchar(32));
 CREATE FUNCTION get_person_by_name_exact(des_name varchar(32), des_surname varchar(32))
@@ -35,7 +54,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-
+DROP FUNCTION IF EXISTS get_person_id(des_name varchar(64));
 CREATE FUNCTION get_person_id(des_name varchar(64))
 RETURNS int AS $$
 DECLARE
