@@ -45,7 +45,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION can_enter_gym(des_id_client int, des_id_gym int, entry_time timestamp)
+CREATE OR REPLACE FUNCTION can_enter_gym(des_id_client int, des_id_gym int, entry_time timestamp with timezone)
 RETURNS boolean AS $$
 DECLARE
     valid_entry boolean;
