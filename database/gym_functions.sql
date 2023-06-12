@@ -45,3 +45,65 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION can_enter_gym(des_id_client int, des_id_gym int, entry_time timestamp)
+RETURNS boolean AS $$
+DECLARE
+    valid_entry boolean;
+BEGIN
+    -- Check if the client has an active pass for the gym at the given entry_time
+    SELECT EXISTS (
+        SELECT 1
+        FROM pass_client pc
+        JOIN pass_gym pg ON pc.id_pass = pg.id_pass
+        JOIN pass ON pc.id_pass = pass.id
+        WHERE pc.id_client = des_id_client
+          AND pg.id_gym = des_id_gym
+          AND pc.date_from <= entry_time
+          AND (pc.date_from + pass.duration) >= entry_time
+    ) INTO valid_entry;
+
+    RETURN valid_entry;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION validate_entry_function() RETURNS TRIGGER AS $$
+BEGIN
+    IF NOT can_enter_gym(NEW.id_client, NEW.id_gym, NEW.enter_time) THEN
+        RAISE EXCEPTION
+            'Invalid entry: Client does not have an active pass for the gym at the specified entry time.';
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER validate_entry
+BEFORE INSERT ON gym_entry
+FOR EACH ROW
+EXECUTE FUNCTION validate_entry_function();
+
+--
+-- --TODO:
+-- CREATE OR REPLACE FUNCTION can_enter_class(des_id_client int, des_id_class_schedule int)
+-- RETURNS boolean AS $$
+-- DECLARE
+--     valid_entry boolean;
+-- BEGIN
+--     -- Check if the client has an active pass for the gym at the given entry_time
+--     SELECT EXISTS (
+--         SELECT 1
+--         FROM pass_client pc
+--         JOIN pass_gym pg ON pc.id_pass = pg.id_pass
+--         JOIN pass ON pc.id_pass = pass.id
+--         WHERE pc.id_client = des_id_client
+--           AND pg.id_gym = des_id_gym
+--           AND pc.date_from <= entry_time
+--           AND (pc.date_from + pass.duration) >= entry_time
+--     ) INTO valid_entry;
+--
+--     RETURN valid_entry;
+-- END;
+-- $$ LANGUAGE plpgsql;
+--
+-- --TODO:
+-- --wywalanie ludzi nieaktywnych z klas
