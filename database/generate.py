@@ -1,5 +1,4 @@
 import random
-from datetime import datetime, timedelta
 import psycopg2
 from faker import Faker
 
