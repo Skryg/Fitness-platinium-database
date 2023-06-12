@@ -30,11 +30,15 @@ INSERT INTO pass_client (id_pass, id_client, date_from)
 VALUES (1, 1, '2023-05-22');
 INSERT INTO pass_client (id_pass, id_client, date_from)
 VALUES (2, 2, '2023-05-22');
+INSERT INTO pass_client (id_pass, id_client, date_from)
+VALUES (1, 1, '2019-01-01');
+INSERT INTO pass_client (id_pass, id_client, date_from)
+VALUES (2, 2, '2019-01-01');
 
 -- Entry
-INSERT INTO gym_entry (enter_time, exit_time, id_gym, id_client) VALUES ('2019-01-01 10:00:00', '2019-01-01 11:00:00', 1, 1);
-INSERT INTO gym_entry (enter_time, exit_time, id_gym, id_client) VALUES ('2019-01-03 12:00:00', '2019-01-03 13:00:00', 1, 1);
-INSERT INTO gym_entry (enter_time, exit_time, id_gym, id_client) VALUES ('2019-01-04 11:00:00', '2019-01-04 12:00:00', 2, 2);
+INSERT INTO gym_entry (enter_time, exit_time, id_gym, id_client) VALUES ('2019-01-02 10:00:00', '2019-01-02 11:00:00', 1, 2);
+INSERT INTO gym_entry (enter_time, exit_time, id_gym, id_client) VALUES ('2019-01-03 12:00:00', '2019-01-03 13:00:00', 1, 2);
+INSERT INTO gym_entry (enter_time, exit_time, id_gym, id_client) VALUES ('2019-01-04 11:00:00', '2019-01-04 12:00:00', 2, 1);
 INSERT INTO gym_entry (enter_time, exit_time, id_gym, id_client) VALUES ('2019-01-05 20:00:00', '2019-01-05 22:00:00', 2, 2);
 
 -- Equipment Type

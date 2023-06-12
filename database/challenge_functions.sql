@@ -32,6 +32,19 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION update_awards_on_insert()
+RETURNS TRIGGER as
+$$BEGIN
+    perform update_awards();
+    return new;
+end; $$ language plpgsql;
+
+DROP TRIGGER IF EXISTS execute_update_awards on gym_entry;
+CREATE TRIGGER execute_update_awards
+AFTER INSERT ON gym_entry
+FOR EACH ROW
+EXECUTE FUNCTION update_awards_on_insert();
+
 
 CREATE OR REPLACE FUNCTION give_awards(des_id_client int)
 RETURNS SETOF award AS $$
@@ -67,5 +80,4 @@ BEGIN
     RETURN;
 END;
 $$ LANGUAGE plpgsql;
-
 

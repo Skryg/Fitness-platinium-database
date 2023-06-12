@@ -77,10 +77,40 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS validate_entry on gym_entry;
 CREATE TRIGGER validate_entry
 BEFORE INSERT ON gym_entry
 FOR EACH ROW
 EXECUTE FUNCTION validate_entry_function();
+
+CREATE OR REPLACE FUNCTION check_null_exit_time()
+RETURNS TRIGGER AS $$
+DECLARE
+    null_exit_count INTEGER;
+BEGIN
+    SELECT COUNT(*) INTO null_exit_count
+    FROM gym_entry
+    WHERE id_client = NEW.id_client
+        AND exit_time IS NULL;
+
+    IF NEW.exit_time is null then null_exit_count := null_exit_count + 1;
+    end if;
+
+    IF null_exit_count > 1 THEN
+        RAISE EXCEPTION 'Maximum one NULL exit_time allowed per client. Finish the started entry first.';
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS check_null_exit_time_trigger ON gym_entry;
+CREATE TRIGGER check_null_exit_time_trigger
+BEFORE INSERT OR UPDATE OF exit_time ON gym_entry
+FOR EACH ROW
+EXECUTE FUNCTION check_null_exit_time();
+
+
 
 --
 -- --TODO:

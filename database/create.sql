@@ -72,7 +72,7 @@ CREATE TABLE pass_client(
     id_client int NOT NULL,
     date_from date NOT NULL,
     --date_to date NOT NULL,
-    PRIMARY KEY (id_pass, id_client),
+    PRIMARY KEY (id_pass, id_client, date_from),
     FOREIGN KEY (id_pass) REFERENCES pass(id) ON DELETE CASCADE,
     FOREIGN KEY (id_client) REFERENCES client(id) ON DELETE CASCADE
 );
@@ -208,13 +208,13 @@ CREATE TABLE class_schedule (
 CREATE TABLE gym_entry (
     id SERIAL,
     enter_time timestamp NOT NULL,
-    exit_time timestamp NOT NULL, 
+    exit_time timestamp,
     id_client int NOT NULL,
     id_gym int NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (id_client) REFERENCES client(id) ON DELETE CASCADE,
     FOREIGN KEY (id_gym) REFERENCES gym(id),
-    CONSTRAINT check_times CHECK (enter_time <= exit_time)
+    CONSTRAINT check_times CHECK (exit_time is null or enter_time <= exit_time)
 );
 
 CREATE TABLE class_entry (

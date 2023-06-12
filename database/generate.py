@@ -117,6 +117,9 @@ def generate_relation(rel_name, col1_name, col2_name, tab1_name, tab2_name, des_
     print("inserted " + str(cnt) + " passes")
 
 
+
+
+
 if __name__ == '__main__':
     print("start")
     person_ids = generate_person(30)
