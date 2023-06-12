@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { OnInit } from '@angular/core';
 import { Client } from '../client';
-import { ClientService } from '../client.service';
+import { ClientService } from '../service/client.service';
 import { Router } from '@angular/router';
+import { OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-add-client',
@@ -24,9 +24,9 @@ export class AddClientComponent implements OnInit{
   addClient(): void {
     this.clientService.addClient(this.client)
         .subscribe( data => { console.log(data);
-          this.gotoList();
         }, error => console.log(error));
     
+        this.gotoList();
     
   }
   gotoList() {

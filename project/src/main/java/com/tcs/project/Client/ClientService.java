@@ -18,24 +18,33 @@ public class ClientService {
     }
 
     public List<Client> getClients() {
-        return clientRepository.findAll();
+        return clientRepository.getClients();
     }
 
     public Client getClient(Long id) {
-        return clientRepository.findById(id).orElseThrow(
-                () -> new IllegalStateException("Client with id " + id + " does not exists"));
+        return clientRepository.getClient(id);
     }
 
     public void addNewClient(Client client) {
-        clientRepository.save(client);
+        clientRepository.addNewClient(client.getName(), client.getSurname(), client.getAddress(), client.getPhone(), client.getEmail());
     }
 
     public void deleteClient(Long id) {
-        boolean exists = clientRepository.existsById(id);
-        if (!exists) {
-            throw new IllegalStateException("Client with id " + id + " does not exists");
+        try {
+            clientRepository.deleteGymEntryByClientId(id);
+        } catch (Exception e) {
+            System.out.println("No gym entries to delete");
         }
-        clientRepository.deleteById(id);
+        try{
+            clientRepository.deleteClientById(id);
+        } catch (Exception e) {
+            System.out.println("No equipment entries to delete");
+        }
+        try{
+            clientRepository.deletePersonById(id);
+        } catch (Exception e) {
+            System.out.println("No equipment entries to delete");
+        }
     }
 
     public List<Object[]> getEntriesByClient(Long id) {
@@ -46,4 +55,11 @@ public class ClientService {
         return clientRepository.getClientsByGym(id);
     }
 
+    public List<Object[]> getEntriesByGym(Long id) {
+        return clientRepository.getEntriesByGym(id);
+    }
+
+    public List<Object[]> getChallenges() {
+        return clientRepository.getChallenges();
+    }
 }

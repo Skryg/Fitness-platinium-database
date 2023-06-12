@@ -7,16 +7,20 @@ import { EquipmentComponent } from './equipment/equipment.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
+import { authenticationGuard } from './authentication.guard';
+import { ChallengesComponent } from './challenges/challenges.component';
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: 'home'},
-  {path: 'register', component: RegisterComponent},
-  {path: 'login', component: LoginComponent},
+  {path: 'register', component: RegisterComponent, canActivate: [authenticationGuard]},
+  {path: 'login', component: LoginComponent, canActivate: [authenticationGuard]},
   {path: 'home', component: HomeComponent},
-  {path: 'clients', component: ClientListComponent},
-  {path: 'add-client', component: AddClientComponent},
-  {path: 'find-client', component: FindClientComponent},
-  {path: 'equipment', component: EquipmentComponent}
+  {path: 'clients', component: ClientListComponent, canActivate: [authenticationGuard]},
+  {path: 'add-client', component: AddClientComponent, canActivate: [authenticationGuard]},
+  {path: 'find-client', component: FindClientComponent, canActivate: [authenticationGuard]},
+  {path: 'equipment', component: EquipmentComponent, canActivate: [authenticationGuard]},
+  {path: 'challenges', component: ChallengesComponent, canActivate: [authenticationGuard]},
+  {path: '**', redirectTo: 'home'}
 ];
 
 @NgModule({

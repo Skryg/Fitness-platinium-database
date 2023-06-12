@@ -1,0 +1,19 @@
+<!-- Create table-->
+<h1>Challenges</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">From</th>
+      <th scope="col">To</th>
+      <th scope="col">Minimum Entries</th>
+      <th scope="col">Reward</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let f of from">
+        <td>{{f}}</td>
+        <td>{{to[from.indexOf(f)]}}</td>
+        <td>{{minEntries[from.indexOf(f)]}}</td>
+        <td>{{rewards[from.indexOf(f)]}}</td>
+    </tr>
+  </tbody>

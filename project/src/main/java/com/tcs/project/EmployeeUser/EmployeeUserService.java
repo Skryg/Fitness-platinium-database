@@ -1,8 +1,11 @@
 package com.tcs.project.EmployeeUser;
 
+import com.tcs.project.session.InMemorySessionRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.handler.WebRequestHandlerInterceptorAdapter;
 
 import java.util.Optional;
 
@@ -10,11 +13,13 @@ import java.util.Optional;
 public class EmployeeUserService {
 
     private EmployeeUserRepository repository;
+    private InMemorySessionRegistry sessionRegistry;
     private final PasswordEncoder passwordEncoder;
     @Autowired
-    public EmployeeUserService(EmployeeUserRepository repository, PasswordEncoder passwordEncoder){
+    public EmployeeUserService(EmployeeUserRepository repository, PasswordEncoder passwordEncoder, InMemorySessionRegistry sessionRegistry){
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
+        this.sessionRegistry = sessionRegistry;
     }
 
     public String registerEmployee(EmployeeUserDTO employeeUserDTO){
@@ -40,16 +45,16 @@ public class EmployeeUserService {
             if (isPwdRight) {
                 Optional<EmployeeUser> employee = repository.findOneByUsernameAndPassword(loginDTO.getUsername(), encodedPassword);
                 if (employee.isPresent()) {
-                    return new LoginResponse("Login Success", true);
+                    return new LoginResponse(true, sessionRegistry.registerSession(loginDTO.getUsername()), employee.get().getPermission());
                 } else {
-                    return new LoginResponse("Login Failed", false);
+                    return new LoginResponse(false, "Login Failed", 0);
                 }
             } else {
 
-                return new LoginResponse("Password does not match", false);
+                return new LoginResponse(false, "Password does not match", 0);
             }
         }else {
-            return new LoginResponse("Username does not exit", false);
+            return new LoginResponse(false, "Username does not exit", 0);
         }
 
 

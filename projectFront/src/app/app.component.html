@@ -38,12 +38,26 @@
           <a class="nav-link" routerLink="/equipment">Equipment</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" routerLink="/challenges">Challenges</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" routerLink="/register">Register user employee</a>
         </li>
       </ul>
       <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+
+        <select [(ngModel)]="selectedOption"  (change)="updateGymId()">
+          <option value="1">Bratysławska 3, id: 1</option>
+          <option value="2">Aleja Pokoju 16, id: 2</option>
+        </select>
+        
+        
+
         <li class="nav-item">
-          <a class="nav-link" routerLink="/login">Login</a>
+          <a class="nav-link" routerLink="/login" *ngIf="!hasToken()">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="" (click)="loginService.logout()" *ngIf="hasToken()">Logout</a>
         </li>
         
         <!-- <li class="nav-item"><a class="nav-link" (click)="logout()">Logout</a></li>  -->

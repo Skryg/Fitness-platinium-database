@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Client } from './client';
+import { Client } from '../client';
 
 @Injectable({
   providedIn: 'root'
@@ -34,5 +34,14 @@ export class ClientService {
   public getClientsbyGym(id: number): Observable<Client[]> {
     return this.httpClient.get<Client[]>(`${this.baseURL}/gym/${id}`);
   }
+
+  public getEntriesByGym(id: number): Observable<Object> {
+    return this.httpClient.get(`${this.baseURL}/entries/gym/${id}`);
+  }
+
+  public getChallenges() : Observable<Object> {
+    return this.httpClient.get(`${this.baseURL}/challenge`);
+  }
+
 
 }
