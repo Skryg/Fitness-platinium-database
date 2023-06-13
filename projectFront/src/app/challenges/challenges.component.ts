@@ -12,6 +12,7 @@ export class ChallengesComponent {
   to: Array<string> = [];
   minEntries: Array<string> = [];
   rewards: Array<string> = [];
+  idAward: number = 0;
 
   constructor(private clientService: ClientService) { }
 
@@ -42,6 +43,14 @@ export class ChallengesComponent {
       this.rewards.push(tmp);
     });
 
+  }
+
+  message: string = '';
+  giveAwards() {
+    this.clientService.giveAwards(this.idAward).subscribe(data => {
+      console.log(data);
+      this.message = data.toString();
+    }, error => console.log(error));
   }
 
 }

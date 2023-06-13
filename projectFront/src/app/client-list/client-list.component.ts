@@ -53,6 +53,27 @@ export class ClientListComponent implements OnInit {
     this.entries.push(tmp);
   }
 
+  
+  formatEntry(str: string) : string {
+    let cnt  = 0;
+    str = 'Enter Time: ' + str;
+    for(let i = 0; i < str.length; i++) {
+        if(str.charAt(i) == ',') {
+          cnt++;
+          if(cnt == 1){
+            str = str.substring(0, i) + ' Exit Time: ' + str.substring(i+1, str.length);
+          }
+          if(cnt == 2) {
+            str = str.substring(0, i) + ' Client Id: ' + str.substring(i+1, str.length);
+          }
+        }
+    }
+    if(str == 'Enter Time: ')
+      return '';
+      console.log(str);
+      return str;
+  }
+
 
 
 }

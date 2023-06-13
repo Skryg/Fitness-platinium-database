@@ -11,7 +11,7 @@ import java.util.Objects;
 
 @Repository
 public interface ClientRepository extends JpaRepository<Client, Long> {
-    @Query(value = "SELECT enter_time, exit_time, (SELECT address FROM gym WHERE entry.id_gym = gym.id) FROM entry WHERE id_client = :id", nativeQuery = true)
+    @Query(value = "SELECT enter_time, exit_time, address FROM gym_entry JOIN gym ON gym.id = gym_entry.id_gym WHERE id_client = :id", nativeQuery = true)
     List<Object[]> getEntriesByClient(@Param("id") Long id);
 
     @Query(value = "SELECT * FROM person JOIN" +
@@ -35,18 +35,32 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     void addNewClient(@Param("name") String name, @Param("surname") String surname, @Param("address") String address, @Param("phone") String phone, @Param("email") String email);
 
     // delete client
-    @Query(value = "DELETE FROM gym_entry WHERE id_client = :id", nativeQuery = true)
-    void deleteGymEntryByClientId(@Param("id") Long id);
-
     @Query(value = "DELETE FROM client WHERE id = :id", nativeQuery = true)
     void deleteClientById(@Param("id") Long id);
-
-    @Query(value = "DELETE FROM person WHERE id = :id", nativeQuery = true)
-    void deletePersonById(@Param("id") Long id);
 
     @Query(value = "SELECT date_from, date_to, min_entries, a.name FROM challenge " +
             " JOIN challenge_award ON challenge.id = challenge_award.id_challenge" +
             " JOIN award a on challenge_award.id_award = a.id", nativeQuery = true)
     List<Object[]> getChallenges();
+
+    @Query(value = "SELECT get_person_by_name(cast(:name as varchar(64)))", nativeQuery = true)
+    List<Object[]> getPersonByName(@Param("name") String name);
+
+    @Query(value = "SELECT give_awards(:id)", nativeQuery = true)
+    List<Object[]> giveAwards(@Param("id") int id);
+
+    @Query(value = "SELECT can_enter_gym(:id_client, :id_gym, current_timestamp)", nativeQuery = true)
+    List<Object[]> canEnterGym(@Param("id_client") int id_client, @Param("id_gym") int id_gym);
+
+    @Query(value = "INSERT into gym_entry (enter_time, exit_time, id_client, id_gym) " +
+            "VALUES (current_timestamp, null, :id_client, :id_gym)", nativeQuery = true)
+    void enterGym(@Param("id_client") int id_client, @Param("id_gym") int id_gym);
+
+    @Query(value = "UPDATE gym_entry" +
+            " SET exit_time = current_timestamp" +
+            " WHERE id_client = :id_client" +
+            " AND exit_time IS NULL", nativeQuery = true)
+    void exitGym(@Param("id_client") int id_client);
+
 
 }

@@ -56,5 +56,28 @@ public class ClientController {
         return clientService.getChallenges();
     }
 
+    @GetMapping("/name/{name}")
+    public List<Object[]> getPersonByName(@PathVariable String name) {
+        return clientService.getPersonByName(name);
+    }
 
+    @GetMapping("/awards/{id}")
+    public List<Object[]> giveAwards(@PathVariable int id) {
+        return clientService.giveAwards(id);
+    }
+
+    @GetMapping("/canEnter/{id1}/{id2}")
+    public List<Object[]> canEnterGym(@PathVariable int id1, @PathVariable int id2) {
+        return clientService.canEnterGym(id1, id2);
+    }
+
+    @GetMapping("/enter/{id1}/{id2}")
+    public void enterGym(@PathVariable int id1, @PathVariable int id2) {
+        clientService.enterGym(id1, id2);
+    }
+
+    @GetMapping("/exit/{id1}")
+    public void exitGym(@PathVariable int id1) {
+        clientService.exitGym(id1);
+    }
 }

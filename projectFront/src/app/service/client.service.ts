@@ -43,5 +43,24 @@ export class ClientService {
     return this.httpClient.get(`${this.baseURL}/challenge`);
   }
 
+  public getPersonByName(name: string): Observable<Client[]> {
+    return this.httpClient.get<Client[]>(`${this.baseURL}/name/${name}`);
+  }
+
+  public giveAwards(id: number): Observable<Object> {
+    return this.httpClient.get(`${this.baseURL}/awards/${id}`);
+  }
+
+  public canEnterGym(id1: number, id2: number): Observable<Object> {
+    return this.httpClient.get(`${this.baseURL}/canEnter/${id1}/${id2}`);
+  }
+
+  public enter(id1: number, id2: number): Observable<Object> {
+    return this.httpClient.get(`${this.baseURL}/enter/${id1}/${id2}`);
+  }
+
+  public exit(id: number): Observable<Object> {
+    return this.httpClient.get(`${this.baseURL}/exit/${id}`);
+  }
 
 }
