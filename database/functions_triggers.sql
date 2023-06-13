@@ -199,9 +199,6 @@ BEFORE INSERT OR UPDATE ON gym_entry
 FOR EACH ROW
 EXECUTE FUNCTION check_gym_entry_overlap();
 
-
-
-
 CREATE OR REPLACE FUNCTION get_gym_entries_d(gym int, "from" date, "to" date) RETURNS bigint AS $$
     SELECT count(*) FROM gym_entry WHERE gym = id_gym AND enter_time BETWEEN "from" AND "to";
 $$ LANGUAGE SQL;

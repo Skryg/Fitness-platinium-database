@@ -110,30 +110,41 @@ BEFORE INSERT OR UPDATE OF exit_time ON gym_entry
 FOR EACH ROW
 EXECUTE FUNCTION check_null_exit_time();
 
-
-
 --
 -- --TODO:
--- CREATE OR REPLACE FUNCTION can_enter_class(des_id_client int, des_id_class_schedule int)
--- RETURNS boolean AS $$
--- DECLARE
---     valid_entry boolean;
--- BEGIN
---     -- Check if the client has an active pass for the gym at the given entry_time
---     SELECT EXISTS (
---         SELECT 1
---         FROM pass_client pc
---         JOIN pass_gym pg ON pc.id_pass = pg.id_pass
---         JOIN pass ON pc.id_pass = pass.id
---         WHERE pc.id_client = des_id_client
---           AND pg.id_gym = des_id_gym
---           AND pc.date_from <= entry_time
---           AND (pc.date_from + pass.duration) >= entry_time
---     ) INTO valid_entry;
---
---     RETURN valid_entry;
--- END;
--- $$ LANGUAGE plpgsql;
+CREATE OR REPLACE FUNCTION can_enter_class(des_id_client int, des_id_class_schedule int)
+RETURNS boolean AS $$
+DECLARE
+    valid_entry boolean;
+BEGIN
+    SELECT EXISTS (
+        SELECT 1
+        FROM class_client cc
+        join class_schedule cs on cc.id_class = cs.id_class
+        where id_client = des_id_client
+        and cs.id = des_id_class_schedule
+    ) INTO valid_entry;
+
+    RETURN valid_entry;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION can_enter_class_tf()
+RETURNS TRIGGER AS $$
+BEGIN
+    if not can_enter_class(new.id_client, new.id_class_schedule)
+    then raise exception 'This client is not enrolled in this class.';
+    end if;
+    return new;
+    end;
+$$LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER check_class_enrollment
+BEFORE INSERT OR UPDATE ON class_entry
+FOR EACH ROW
+EXECUTE FUNCTION can_enter_class_tf();
+
+
 --
 -- --TODO:
 -- --wywalanie ludzi nieaktywnych z klas
